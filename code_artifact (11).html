@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nhar m3a l3a2ila f lMaghrib — Une journée en famille au Maroc</title>
+
+  <!-- Google Fonts: Nunito & Inter for modern, friendly readability -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Nunito', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            morocco: {
+              teal: '#0F766E',
+              tealLight: '#14B8A6',
+              majorelle: '#1D4ED8',
+              saffron: '#F59E0B',
+              terracotta: '#EA580C',
+              sand: '#FFFBF5',
+              ink: '#0F172A'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .font-display {
+      font-family: 'Nunito', 'Inter', sans-serif;
+    }
+
+    /* Subtle Moroccan Zellige-inspired decorative top border */
+    .zellige-bar {
+      background: repeating-linear-gradient(
+        90deg,
+        #0F766E 0px, #0F766E 24px,
+        #F59E0B 24px, #F59E0B 36px,
+        #1D4ED8 36px, #1D4ED8 60px,
+        #EA580C 60px, #EA580C 72px
+      );
+      height: 5px;
+    }
+
+    /* Smooth view animations */
+    .fade-in {
+      animation: fadeIn 0.28s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.92); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .pop-in {
+      animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Tactile 3D button press feel for kids */
+    .btn-3d {
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      box-shadow: 0 4px 0 rgba(15, 23, 42, 0.16);
+    }
+    .btn-3d:active:not(:disabled) {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 rgba(15, 23, 42, 0.16);
+    }
+
+    /* Recording pulse */
+    @keyframes pulseRing {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.55); }
+      70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+    .recording-pulse {
+      animation: pulseRing 1.3s infinite;
+    }
+
+    /* Hide scrollbar on horizontal step pills */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Decorative Top Moroccan Ribbon -->
+  <div class="zellige-bar w-full sticky top-0 z-50"></div>
+
+  <!-- =========================================================
+       TOP NAVIGATION & GAMIFICATION HUD
+       ========================================================= -->
+  <header class="sticky top-[5px] z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-5xl mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
+      <!-- Brand / Home Button -->
+      <button onclick="navigateTo('home')" class="flex items-center gap-2.5 text-left group focus:outline-none">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-600 to-teal-800 text-white flex items-center justify-center font-display font-black text-lg shadow-sm group-hover:scale-105 transition">
+          🇲🇦
+        </div>
+        <div>
+          <div class="font-display font-extrabold text-slate-900 text-sm sm:text-base leading-tight">
+            Nhar m3a l3a2ila
+          </div>
+          <div class="text-[11px] sm:text-xs text-slate-500 font-medium">
+            Une journée en famille au Maroc
+          </div>
+        </div>
+      </button>
+
+      <!-- Navigation Pills -->
+      <nav class="flex items-center gap-1.5 sm:gap-2 order-3 sm:order-2 w-full sm:w-auto justify-center pt-1 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+        <button id="nav-home" onclick="navigateTo('home')" class="nav-btn px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5">
+          <span>🗺️</span> <span>Aventure</span>
+        </button>
+        <button id="nav-review" onclick="navigateTo('review')" class="nav-btn px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 relative">
+          <span>🧠</span> <span>Révision</span>
+          <span id="mistakes-badge" class="hidden -top-1 -right-1 bg-rose-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded-full">0</span>
+        </button>
+        <button id="nav-badges" onclick="navigateTo('badges')" class="nav-btn px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5">
+          <span>🏆</span> <span>Badges</span>
+        </button>
+        <button id="nav-final" onclick="navigateTo('final')" class="nav-btn px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5">
+          <span>🎯</span> <span>Défi Final</span>
+        </button>
+      </nav>
+
+      <!-- XP & Level HUD -->
+      <div class="flex items-center gap-2 order-2 sm:order-3">
+        <div class="bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-xl flex items-center gap-1.5" title="Points d'expérience">
+          <span class="text-sm">⭐</span>
+          <span id="hud-xp" class="font-display font-black text-amber-700 text-sm">0 XP</span>
+        </div>
+        <div class="hidden md:flex bg-teal-50 border border-teal-200 px-2.5 py-1 rounded-xl items-center gap-1.5">
+          <span id="hud-level" class="font-display font-bold text-teal-800 text-xs">Explorateur</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global Progress Bar -->
+    <div class="max-w-5xl mx-auto px-3 sm:px-6 pb-2 flex items-center gap-3">
+      <div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div id="global-progress-bar" class="h-full bg-gradient-to-r from-teal-500 via-amber-500 to-orange-500 rounded-full transition-all duration-500" style="width: 0%"></div>
+      </div>
+      <span id="global-progress-text" class="text-[11px] font-bold text-slate-500 whitespace-nowrap">0% complété</span>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       MAIN DYNAMIC CONTENT CONTAINER
+       ========================================================= -->
+  <main id="app-root" class="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 py-5 sm:py-7">
+    <!-- Rendered dynamically by JavaScript -->
+  </main>
+
+  <!-- =========================================================
+       TOAST NOTIFICATION (Replaces alert())
+       ========================================================= -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-xs sm:max-w-sm pointer-events-none"></div>
+
+  <!-- =========================================================
+       CUSTOM MODAL (Replaces confirm() / info popups)
+       ========================================================= -->
+  <div id="custom-modal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl pop-in border border-slate-200">
+      <div id="modal-icon" class="text-4xl mb-2 text-center">🎉</div>
+      <h3 id="modal-title" class="font-display font-black text-xl text-center text-slate-900 mb-2"></h3>
+      <p id="modal-body" class="text-sm text-slate-600 text-center mb-5 leading-relaxed"></p>
+      <div id="modal-actions" class="flex items-center justify-center gap-3"></div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       FOOTER
+       ========================================================= -->
+  <footer class="border-t border-slate-200 bg-white mt-10 py-4 px-4 text-center text-xs text-slate-500">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <span><strong>Nhar m3a l3a2ila f lMaghrib</strong> &bull; Darija Marocaine A1–A2 (11 ans)</span>
+      <div class="flex items-center gap-3">
+        <button onclick="openTranscriptionGuide()" class="text-teal-700 font-semibold hover:underline">📖 Guide de lecture (3, 7, 9)</button>
+        <button onclick="confirmResetProgress()" class="text-slate-400 hover:text-rose-600 font-medium">Réinitialiser</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       APPLICATION DATA & LOGIC
+       ========================================================= -->
+  <script>
+    /* =========================================================================
+       1. CURRICULUM DATA — 6 INTERCONNECTED UNITS + MILESTONES + FINAL ADVENTURE
+       Unified Latin Transcription System (French-friendly):
+         3 = ع | 7 = ح | 9 = ق | 2 = ء | ch = ش | kh = خ | gh = غ
+       Authentic Moroccan Darija reviewed for naturalness & politeness.
+       ========================================================================= */
+
+    const UNITS = [
+      {
+        id: 1,
+        code: 'U1',
+        titleDarija: 'Wselna l lMaghrib!',
+        titleFr: 'Arrivée chez la famille',
+        subtitle: 'Saluer Jeddo & Jeddati et répondre avec politesse',
+        badgeId: 'badge_welcome',
+        badgeName: 'Champion de l’Accueil',
+        badgeIcon: '🏡',
+        sceneType: 'arrival',
+        storyIntro: "Tu viens d'arriver au Maroc avec ton papa et ta maman ! La porte de la maison familiale s'ouvre : ton grand-père (Jeddo) et ta grand-mère (Jeddati / Lalla) t'accueillent à bras ouverts dans le salon marocain.",
+        culturalTip: "Au Maroc, les prénoms de famille varient selon les régions et les maisons : on dit souvent « Jeddo » ou « Bba » pour grand-père, et « Jeddati », « Lalla » ou « Mmi » pour grand-mère. Demande à ton papa comment on dit dans ta famille !",
+        vocab: [
+          { id: 'u1_v1', darija: 'Salam 3alikom', arabic: 'السلام عليكم', fr: 'Bonjour (paix sur vous)', context: 'La salutation la plus naturelle et respectueuse en entrant.', icon: '👋', audioFile: '' },
+          { id: 'u1_v2', darija: 'Wa 3alikom salam', arabic: 'وعليكم السلام', fr: 'Bonjour (en réponse)', context: 'On répond toujours cela quand quelqu’un dit Salam 3alikom.', icon: '🤝', audioFile: '' },
+          { id: 'u1_v3', darija: 'Labas?', arabic: 'لاباس؟', fr: 'Ça va ?', context: 'Utilisé avec tout le monde : amis, cousins et grands-parents.', icon: '😊', audioFile: '' },
+          { id: 'u1_v4', darija: 'L7amdullah', arabic: 'الحمد لله', fr: 'Très bien, merci (Dieu merci)', context: 'La réponse classique à « Labas? ».', icon: '✨', audioFile: '' },
+          { id: 'u1_v5', darija: 'Mer7ba bik!', arabic: 'مرحبا بيك', fr: 'Bienvenue !', context: 'Ta famille te dit ça dès que tu arrives chez eux.', icon: '🏡', audioFile: '' },
+          { id: 'u1_v6', darija: 'Twa7echtkom bezzaf!', arabic: 'توحشتكم بزاف', fr: 'Vous m’avez beaucoup manqué !', context: 'Phrase magique qui fait fondre le cœur de Jeddo et Jeddati.', icon: '❤️', audioFile: '' },
+          { id: 'u1_v7', darija: 'Kidayr? / Kidayra?', arabic: 'كيداير؟ / كيدايرا؟', fr: 'Comment vas-tu ? (m. / f.)', context: 'Kidayr pour un garçon/homme (Jeddo), Kidayra pour une fille/femme (Jeddati).', icon: '💬', audioFile: '' },
+          { id: 'u1_v8', darija: 'Kif dazet tri9?', arabic: 'كيف دازت الطريق؟', fr: 'Comment s’est passé le voyage ?', context: 'Question que tout le monde pose quand tu arrives de France !', icon: '✈️', audioFile: '' }
+        ],
+        dialogue: [
+          { speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', darija: 'Salam 3alikom Jeddo ! Salam 3alikom Jeddati !', fr: 'Bonjour Grand-père ! Bonjour Grand-mère !' },
+          { speaker: 'Jeddo', avatar: '👴', side: 'left', darija: 'Wa 3alikom salam a weldi ! Mer7ba bik f lMaghrib !', fr: 'Bonjour mon fils ! Bienvenue au Maroc !' },
+          { speaker: 'Jeddati (Lalla)', avatar: '👵', side: 'left', darija: 'Mer7ba bik a 7bibi ! Labas 3lik ? Kif dazet tri9 ?', fr: 'Bienvenue mon chéri ! Tu vas bien ? Comment s’est passé le voyage ?' },
+          {
+            speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', interactive: true,
+            promptFr: 'Jeddati te demande comment tu vas et comment s’est passé le voyage. Que réponds-tu ?',
+            options: [
+              { darija: 'Labas l7amdullah ! Tri9 dazet mezyana. Twa7echtkom bezzaf !', fr: 'Ça va très bien ! Le voyage s’est bien passé. Vous m’avez beaucoup manqué !', correct: true, feedback: 'Parfait ! C’est exactement comme ça qu’on répond avec chaleur et respect.' },
+              { darija: 'Mer7ba bik a Jeddati !', fr: 'Bienvenue Grand-mère !', correct: false, feedback: 'Presque ! C’est Jeddati qui te souhaite la bienvenue, pas l’inverse.' },
+              { darija: 'Bsslama Jeddo !', fr: 'Au revoir Grand-père !', correct: false, feedback: 'Oups ! Tu viens tout juste d’arriver, ne dis pas déjà au revoir !' }
+            ]
+          },
+          { speaker: 'Jeddo', avatar: '👴', side: 'left', darija: '7tta 7na twa7echnak bezzaf ! Yallah dkhol terta7.', fr: 'Nous aussi tu nous as beaucoup manqué ! Allez, entre te reposer.' }
+        ],
+        quiz: [
+          {
+            type: 'mcq',
+            question: 'Que répond-on naturellement quand quelqu’un te dit « Salam 3alikom » ?',
+            options: ['Wa 3alikom salam', 'Kif dazet tri9?', 'Mer7ba bik', 'Ana ji3an'],
+            answer: 0,
+            vocabId: 'u1_v2',
+            explanation: 'On répond toujours « Wa 3alikom salam ».'
+          },
+          {
+            type: 'mcq',
+            question: 'Tu veux demander à ta grand-mère (Jeddati) comment elle va. Que dis-tu ?',
+            options: ['Kidayr a Jeddati?', 'Kidayra a Jeddati?', 'Twa7echtek a Jeddo', 'Fin dazet tri9?'],
+            answer: 1,
+            vocabId: 'u1_v7',
+            explanation: 'On utilise « Kidayra » pour une femme/fille, et « Kidayr » pour un homme/garçon.'
+          },
+          {
+            type: 'mcq',
+            question: 'Jeddo te demande : « Kif dazet tri9? ». De quoi parle-t-il ?',
+            options: ['De l’école', 'Du repas', 'Du voyage / de la route', 'Du match de foot'],
+            answer: 2,
+            vocabId: 'u1_v8',
+            explanation: '« Tri9 » veut dire la route / le trajet. « Kif dazet tri9? » = Comment s’est passé le voyage ?'
+          }
+        ],
+        builder: [
+          {
+            promptFr: 'Dis à ta famille : « Vous m’avez beaucoup manqué ! »',
+            words: ['Twa7echtkom', 'bezzaf!'],
+            distractors: ['tri9', 'Labas'],
+            vocabId: 'u1_v6'
+          },
+          {
+            promptFr: 'Réponds : « Ça va, Dieu merci ! »',
+            words: ['Labas,', 'l7amdullah!'],
+            distractors: ['Mer7ba', 'Kidayr'],
+            vocabId: 'u1_v4'
+          }
+        ],
+        roleplay: {
+          character: 'Jeddo 👴',
+          characterLineDarija: 'Salam 3alikom a weldi ! Mer7ba bik ! Labas 3lik ? Kif dazet tri9 ?',
+          characterLineFr: 'Bonjour mon fils ! Bienvenue ! Tu vas bien ? Comment s’est passé le voyage ?',
+          missionFr: 'Salue Jeddo, dis-lui que tu vas bien et que ta famille t’a beaucoup manqué ! (Écris en Darija ou enregistre ta voix)',
+          expectedKeywords: ['salam', 'labas', '7amdullah', 'hamdullah', 'twa7echt', 'twahecht', 'mezyan', 'bikhir'],
+          modelDarija: 'Wa 3alikom salam Jeddo ! Labas l7amdullah, twa7echtkom bezzaf !',
+          modelFr: 'Bonjour Jeddo ! Ça va très bien, vous m’avez beaucoup manqué !'
+        }
+      },
+
+      {
+        id: 2,
+        code: 'U2',
+        titleDarija: 'Ach khbarek? O chnou katdir?',
+        titleFr: 'Discussion avec la famille',
+        subtitle: 'Parler de l’école, du foot, de la PlayStation et de tes amis',
+        badgeId: 'badge_chat',
+        badgeName: 'As de la Discussion',
+        badgeIcon: '⚽',
+        sceneType: 'livingroom',
+        storyIntro: "Vous êtes assis dans le grand salon marocain avec un verre de thé à la menthe. Jeddo et ton oncle (3emmi) veulent tout savoir sur ton école, tes copains et tes passions !",
+        culturalTip: "En Darija, pour dire « J'aime… », on dit « Kay3ejebni » (littéralement « ça me plaît »). Ex : Kay3ejebni nel3eb lkora = J'aime jouer au foot. Pour « Je n'aime pas », on ajoute ma…ch : Ma kay3ejebnich !",
+        vocab: [
+          { id: 'u2_v1', darija: 'Ach khbarek?', arabic: 'آش خبارك؟', fr: 'Quoi de neuf ? / Quelles nouvelles ?', context: 'Très fréquent juste après « Labas ? ».', icon: '🗞️', audioFile: '' },
+          { id: 'u2_v2', darija: 'Kidayra lmedrasa?', arabic: 'كيدايرا المدرسة؟', fr: 'Comment ça se passe à l’école ?', context: 'La question préférée des grands-parents et des oncles !', icon: '🎒', audioFile: '' },
+          { id: 'u2_v3', darija: 'Chnou kat9ra?', arabic: 'شنو كتقرا؟', fr: 'Qu’est-ce que tu étudies / lis ?', context: 'Pour parler de tes matières ou de ta classe.', icon: '📚', audioFile: '' },
+          { id: 'u2_v4', darija: 'Chnou kay3ejbek?', arabic: 'شنو كيعجبك؟', fr: 'Qu’est-ce que tu aimes ?', context: 'Pour parler de tes loisirs et passions.', icon: '⭐', audioFile: '' },
+          { id: 'u2_v5', darija: 'Kay3ejebni nel3eb lkora', arabic: 'كيعجبني نلعب الكورة', fr: 'J’aime jouer au foot', context: 'Indispensable pour te faire des amis au Maroc !', icon: '⚽', audioFile: '' },
+          { id: 'u2_v6', darija: 'Kay3ejebni nel3eb PlayStation', arabic: 'كيعجبني نلعب بلايستيشن', fr: 'J’aime jouer à la PlayStation', context: 'Les cousins vont adorer en parler avec toi.', icon: '🎮', audioFile: '' },
+          { id: 'u2_v7', darija: 'Ma kay3ejebnich...', arabic: 'ما كيعجبنيش...', fr: 'Je n’aime pas...', context: 'Ex : Ma kay3ejebnich nfi9 bekri (Je n’aime pas me lever tôt).', icon: '👎', audioFile: '' },
+          { id: 'u2_v8', darija: 'Lyoum l3ebt m3a s7abi', arabic: 'اليوم لعبت مع صحابي', fr: 'Aujourd’hui j’ai joué avec mes amis', context: '« S7abi » = mes amis / mes potes.', icon: '🤜🤛', audioFile: '' }
+        ],
+        dialogue: [
+          { speaker: '3emmi Karim (Oncle)', avatar: '👨🏽', side: 'left', darija: 'Salam a Sami ! Labas ? Ach khbarek ? Kidayra lmedrasa ?', fr: 'Salut Sami ! Ça va ? Quoi de neuf ? Comment ça va à l’école ?' },
+          { speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', darija: 'L7amdullah a 3emmi ! Lmedrasa mezyana, kan9ra lmaths o sport.', fr: 'Très bien mon oncle ! L’école ça va bien, j’étudie les maths et le sport.' },
+          { speaker: '3emmi Karim', avatar: '👨🏽', side: 'left', darija: 'Mezyan bezzaf ! O chnou kay3ejbek ddir f l3otla ?', fr: 'Très bien ! Et qu’est-ce que tu aimes faire pendant les vacances ?' },
+          {
+            speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', interactive: true,
+            promptFr: 'Dis à ton oncle que tu aimes jouer au foot et à la PlayStation !',
+            options: [
+              { darija: 'Kay3ejebni nel3eb lkora o PlayStation m3a s7abi !', fr: 'J’aime jouer au foot et à la PlayStation avec mes amis !', correct: true, feedback: 'Bravo ! Naturel, fluide et 100% Darija.' },
+              { darija: 'Ma kay3ejebnich lmedrasa o tri9.', fr: 'Je n’aime pas l’école et la route.', correct: false, feedback: 'Attention, il te demande ce que tu AIMES faire pendant les vacances !' },
+              { darija: 'Kif dazet tri9 a 3emmi ?', fr: 'Comment s’est passé le voyage mon oncle ?', correct: false, feedback: 'Tu as réutilisé l’Unité 1, mais ici c’est toi qui viens de voyager !' }
+            ]
+          },
+          { speaker: '3emmi Karim', avatar: '👨🏽', side: 'left', darija: 'Tbarkellah ! Weldi Youssef 7tta howa kay3ejbo lkora bezzaf !', fr: 'Super ! Mon fils Youssef aussi aime beaucoup le foot !' }
+        ],
+        quiz: [
+          {
+            type: 'mcq',
+            question: 'Comment dire « J’aime jouer au foot » en Darija authentique ?',
+            options: ['Kay3ejebni nel3eb lkora', 'Ma kay3ejebnich lkora', 'Chnou kat9ra f lkora', 'Kidayra lkora'],
+            answer: 0,
+            vocabId: 'u2_v5',
+            explanation: '« Kay3ejebni nel3eb lkora » = J’aime jouer au foot.'
+          },
+          {
+            type: 'mcq',
+            question: 'Que signifie le mot « s7abi » dans « Lyoum l3ebt m3a s7abi » ?',
+            options: ['Mes devoirs', 'Mes amis / potes', 'Mes chaussures', 'Mes grands-parents'],
+            answer: 1,
+            vocabId: 'u2_v8',
+            explanation: '« S7abi » signifie « mes amis » (un ami = sa7bi).'
+          },
+          {
+            type: 'mcq',
+            question: '🔄 Rappel Unité 1 : Quelle phrase permet de dire à ton oncle qu’il t’a manqué ?',
+            options: ['Twa7echtek bezzaf!', 'Kidayra lmedrasa?', 'Ach khbarek?', 'Lyoum l3ebt'],
+            answer: 0,
+            vocabId: 'u1_v6',
+            explanation: 'Bravo pour le rappel ! « Twa7echtek » (à une personne) / « Twa7echtkom » (à plusieurs personnes).'
+          }
+        ],
+        builder: [
+          {
+            promptFr: 'Construis : « J’aime jouer à la PlayStation »',
+            words: ['Kay3ejebni', 'nel3eb', 'PlayStation'],
+            distractors: ['Ma', 'lmedrasa'],
+            vocabId: 'u2_v6'
+          },
+          {
+            promptFr: 'Construis : « Aujourd’hui j’ai joué avec mes amis »',
+            words: ['Lyoum', 'l3ebt', 'm3a', 's7abi'],
+            distractors: ['kay3ejbek', 'Labas'],
+            vocabId: 'u2_v8'
+          }
+        ],
+        roleplay: {
+          character: 'Jeddati 👵',
+          characterLineDarija: 'Ach khbarek a weldi ? Kidayra lmedrasa ? O chnou kay3ejbek ddir ?',
+          characterLineFr: 'Quoi de neuf mon fils ? Comment va l’école ? Et qu’est-ce que tu aimes faire ?',
+          missionFr: 'Réponds à Jeddati : dis comment va l’école et parle d’une activité que tu aimes (foot, PlayStation, amis…).',
+          expectedKeywords: ['mezyan', 'labas', 'kay3ejebni', 'kay3jbni', 'kora', 'playstation', 'nel3eb', 's7abi', 'medrasa'],
+          modelDarija: 'Lmedrasa mezyana l7amdullah ! Kay3ejebni nel3eb lkora o PlayStation m3a s7abi.',
+          modelFr: 'L’école ça va bien ! J’aime jouer au foot et à la PlayStation avec mes amis.'
+        }
+      },
+
+      {
+        id: 3,
+        code: 'U3',
+        titleDarija: 'Yallah netgheddaw!',
+        titleFr: 'À table avec la famille',
+        subtitle: 'Demander à manger, à boire et complimenter le tajine',
+        badgeId: 'badge_food',
+        badgeName: 'Fin Gourmet du Tajine',
+        badgeIcon: '🍲',
+        sceneType: 'dining',
+        storyIntro: "Une délicieuse odeur de tajine au poulet et aux olives envahit toute la maison ! Jeddati appelle tout le monde autour de la table ronde. C'est l'heure du déjeuner en famille.",
+        culturalTip: "Au Maroc, quand quelqu’un te sert un plat ou te souhaite bon appétit, il dit « Bssa7a o ra7a ! ». La réponse polie et chaleureuse est toujours : « Allah ye3tik ssa7a ! » (Que Dieu te donne la santé !).",
+        vocab: [
+          { id: 'u3_v1', darija: 'Ana ji3an', arabic: 'أنا جيعان', fr: 'J’ai faim (garçon)', context: 'Pour une fille, on dit « Ana ji3ana ».', icon: '😋', audioFile: '' },
+          { id: 'u3_v2', darija: '3tini lma 3afak', arabic: 'عطيني الما عافاك', fr: 'Donne-moi de l’eau s’il te plaît', context: '« 3afak » (s’il te plaît) rend toute demande super polie !', icon: '💧', audioFile: '' },
+          { id: 'u3_v3', darija: 'Bghit nechreb', arabic: 'بغيت نشرب', fr: 'Je veux boire', context: 'Tu peux ajouter « lma » (eau) ou « l3asir » (jus).', icon: '🧃', audioFile: '' },
+          { id: 'u3_v4', darija: 'Had lmakla bnina!', arabic: 'هاد الماكلة بنينة', fr: 'Ce repas est délicieux !', context: 'Dis ça à Jeddati ou à ta tante : elles seront ravies !', icon: '🍲', audioFile: '' },
+          { id: 'u3_v5', darija: 'Zidni chwiya', arabic: 'زيدني شوية', fr: 'Remets-m’en un peu', context: 'Quand le tajine ou les frites sont trop bons !', icon: '🍽️', audioFile: '' },
+          { id: 'u3_v6', darija: 'Safi, chbe3t', arabic: 'صافي، شبعت', fr: 'C’est bon, je suis rassasié', context: 'Indispensable au Maroc car les grands-mères adorent resservir !', icon: '😌', audioFile: '' },
+          { id: 'u3_v7', darija: 'Bssa7a o ra7a!', arabic: 'بالصحة والراحة', fr: 'Bon appétit ! / À ta santé !', context: 'On le dit avant, pendant ou après le repas.', icon: '🌟', audioFile: '' },
+          { id: 'u3_v8', darija: 'Allah ye3tik ssa7a', arabic: 'الله يعطيك الصحة', fr: 'Merci ! (réponse à Bssa7a)', context: 'Aussi utilisé pour féliciter quelqu’un qui a bien cuisiné.', icon: '🙏', audioFile: '' }
+        ],
+        dialogue: [
+          { speaker: 'Jeddati', avatar: '👵', side: 'left', darija: 'Yallah a Sami, aji netgheddaw ! Labas, nta ji3an ?', fr: 'Allez Sami, viens déjeuner ! Ça va, tu as faim ?' },
+          { speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', darija: 'Iyyeh a Jeddati, ana ji3an bezzaf ! O bghit nechreb lma 3afak.', fr: 'Oui Grand-mère, j’ai très faim ! Et je veux boire de l’eau s’il te plaît.' },
+          { speaker: 'Maman', avatar: '👩🏽', side: 'left', darija: 'Hak lma a weldi. Kif jak tajine ? Bssa7a o ra7a !', fr: 'Tiens l’eau mon fils. Comment trouves-tu le tajine ? Bon appétit !' },
+          {
+            speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', interactive: true,
+            promptFr: 'Le tajine est super bon et Maman vient de dire « Bssa7a o ra7a ». Que dis-tu ?',
+            options: [
+              { darija: 'Allah ye3tik ssa7a ! Had lmakla bnina bezzaf, zidni chwiya !', fr: 'Merci ! Ce plat est très délicieux, remets-m’en un peu !', correct: true, feedback: 'Top ! Tu as répondu à Bssa7a et tu as complimenté le plat.' },
+              { darija: 'Ma kay3ejebnich lma 3afak.', fr: 'Je n’aime pas l’eau s’il te plaît.', correct: false, feedback: 'Aïe ! On voulait complimenter le tajine et répondre à Bssa7a.' },
+              { darija: 'Kif dazet tri9 a Mama ?', fr: 'Comment s’est passé le voyage Maman ?', correct: false, feedback: 'On est à table maintenant, pas à l’arrivée !' }
+            ]
+          },
+          { speaker: 'Jeddati', avatar: '👵', side: 'left', darija: 'Kol mezyan a 7bibi ! O ila chbe3ti gol liya « Safi, chbe3t ».', fr: 'Mange bien mon chéri ! Et si tu n’as plus faim dis-moi « Safi, chbe3t ».' }
+        ],
+        quiz: [
+          {
+            type: 'mcq',
+            question: 'Tu as très soif à table. Quelle est la demande la plus polie ?',
+            options: ['3tini lma 3afak', 'Ana ji3an', 'Safi chbe3t', 'Ach khbarek'],
+            answer: 0,
+            vocabId: 'u3_v2',
+            explanation: '« 3tini lma 3afak » = Donne-moi de l’eau s’il te plaît.'
+          },
+          {
+            type: 'mcq',
+            question: 'Jeddo te dit « Bssa7a o ra7a ! ». Que lui réponds-tu ?',
+            options: ['Mer7ba bik', 'Allah ye3tik ssa7a', 'Chnou kat9ra', 'Zidni chwiya'],
+            answer: 1,
+            vocabId: 'u3_v8',
+            explanation: 'À « Bssa7a o ra7a », on répond toujours « Allah ye3tik ssa7a » !'
+          },
+          {
+            type: 'mcq',
+            question: 'Tu as super bien mangé et ton ventre est plein. Que dis-tu à Jeddati ?',
+            options: ['Ana ji3an bezzaf', 'Bghit nechreb', 'Safi, chbe3t ! Had lmakla bnina !', 'Kidayra lmedrasa'],
+            answer: 2,
+            vocabId: 'u3_v6',
+            explanation: '« Safi, chbe3t » veut dire « C’est bon, je suis rassasié ».'
+          }
+        ],
+        builder: [
+          {
+            promptFr: 'Construis : « Donne-moi de l’eau s’il te plaît »',
+            words: ['3tini', 'lma', '3afak'],
+            distractors: ['chbe3t', 'lkora'],
+            vocabId: 'u3_v2'
+          },
+          {
+            promptFr: 'Construis : « Ce repas est délicieux ! »',
+            words: ['Had', 'lmakla', 'bnina!'],
+            distractors: ['ji3an', 'nechreb'],
+            vocabId: 'u3_v4'
+          }
+        ],
+        roleplay: {
+          character: 'Jeddati 👵',
+          characterLineDarija: 'Bssa7a o ra7a a Sami ! Wach bghiti chwiya d l3asir ? Kif jatek lmakla ?',
+          characterLineFr: 'Bon appétit Sami ! Veux-tu un peu de jus ? Comment trouves-tu le repas ?',
+          missionFr: 'Réponds à « Bssa7a », dis que le repas est délicieux et demande de l’eau ou du jus poliment.',
+          expectedKeywords: ['ssa7a', 'saha', 'bnin', 'bnina', '3afak', 'afak', '3tini', 'bghit', 'chbe3t', 'zidni'],
+          modelDarija: 'Allah ye3tik ssa7a Jeddati ! Had lmakla bnina bezzaf. 3tini l3asir 3afak !',
+          modelFr: 'Merci Jeddati ! Ce plat est très délicieux. Donne-moi du jus s’il te plaît !'
+        }
+      },
+
+      {
+        id: 4,
+        code: 'U4',
+        titleDarija: 'Yallah nel3bo!',
+        titleFr: 'Jouer avec les cousins',
+        subtitle: 'Match de foot dans le quartier et tournoi PlayStation',
+        badgeId: 'badge_gamer',
+        badgeName: 'Capitaine & Gamer',
+        badgeIcon: '🎮',
+        sceneType: 'play',
+        storyIntro: "Après le déjeuner, ton cousin Youssef (11 ans) et ta cousine Salma arrivent avec un ballon de foot et deux manettes de PlayStation ! C'est parti pour l'après-midi jeux !",
+        culturalTip: "Entre cousins et enfants du même âge, le ton est direct, drôle et plein d'énergie ! On utilise « Yallah ! » (Allez !), « Sber chwiya ! » (Attends un peu !) et « Ana rbe7t ! » (J'ai gagné !).",
+        vocab: [
+          { id: 'u4_v1', darija: 'Wach bghiti tel3eb?', arabic: 'واش بغيتي تلعب؟', fr: 'Tu veux jouer ?', context: 'Pour une fille (Salma) : « Wach bghiti tel3bi ? ».', icon: '❓', audioFile: '' },
+          { id: 'u4_v2', darija: 'Yallah nel3bo lkora!', arabic: 'يالله نلعبو الكورة', fr: 'Allez, on joue au foot !', context: '« Yallah » sert à proposer une action avec enthousiasme.', icon: '⚽', audioFile: '' },
+          { id: 'u4_v3', darija: 'Chkon ghadi yebda?', arabic: 'شكون غادي يبدا؟', fr: 'Qui va commencer ?', context: 'Super utile pour le coup d’envoi ou la première partie.', icon: '🏁', audioFile: '' },
+          { id: 'u4_v4', darija: 'Nel3bo ana o yyak?', arabic: 'نلعبو أنا وياك؟', fr: 'On joue toi et moi ?', context: 'Pour défier un cousin en 1 contre 1 !', icon: '🆚', audioFile: '' },
+          { id: 'u4_v5', darija: 'Nta m3aya wella deddi?', arabic: 'نتا معايا ولا ضدي؟', fr: 'Tu es avec moi ou contre moi ?', context: 'Idéal pour former les équipes de foot ou FIFA !', icon: '👕', audioFile: '' },
+          { id: 'u4_v6', darija: 'Ana rbe7t!', arabic: 'أنا ربحت!', fr: 'J’ai gagné !', context: 'À crier quand tu marques le but décisif !', icon: '🏆', audioFile: '' },
+          { id: 'u4_v7', darija: 'N3awdo nel3bo!', arabic: 'نعاودو نلعبو!', fr: 'On rejoue ! (Revanche !)', context: 'Quand tu veux faire un autre match.', icon: '🔁', audioFile: '' },
+          { id: 'u4_v8', darija: 'Sber chwiya!', arabic: 'صبر شوية!', fr: 'Attends un peu !', context: 'Quand tu prends la manette ou que tu laces tes chaussures.', icon: '✋', audioFile: '' }
+        ],
+        dialogue: [
+          { speaker: 'Cousin Youssef', avatar: '👦🏽', side: 'left', darija: 'Salam Sami ! Labas ? Wach bghiti tel3eb ? 3andi PlayStation o lkora !', fr: 'Salut Sami ! Ça va ? Tu veux jouer ? J’ai la PlayStation et le ballon !' },
+          { speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', darija: 'Wa 3alikom salam Youssef ! Kay3ejebni lkora bezzaf ! Yallah nel3bo lkora lwel, o men be3d PlayStation.', fr: 'Salut Youssef ! J’adore le foot ! Allez on joue au foot d’abord, et après à la PlayStation.' },
+          { speaker: 'Cousine Salma', avatar: '👧🏽', side: 'left', darija: '7tta ana bghit nel3eb ! Sami, nta m3aya wella deddi ?', fr: 'Moi aussi je veux jouer ! Sami, tu es avec moi ou contre moi ?' },
+          {
+            speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', interactive: true,
+            promptFr: 'Salma te demande si tu es dans son équipe. Réponds et demande qui commence !',
+            options: [
+              { darija: 'Ana m3ak a Salma ! Chkon ghadi yebda ?', fr: 'Je suis avec toi Salma ! Qui va commencer ?', correct: true, feedback: 'Génial ! Tu maîtrises le jeu en équipe en Darija.' },
+              { darija: 'Safi, chbe3t a Salma.', fr: 'C’est bon, je suis rassasié Salma.', correct: false, feedback: 'Haha, on n’est plus à table, on est sur le terrain !' },
+              { darija: 'Allah ye3tik ssa7a Youssef.', fr: 'Merci (après un repas) Youssef.', correct: false, feedback: 'On utilise plutôt ça pour un repas ou un service.' }
+            ]
+          },
+          { speaker: 'Cousin Youssef', avatar: '👦🏽', side: 'left', darija: 'Sber chwiya, njib lkora ! Li rbe7 kaykhtar l’équipe f PlayStation !', fr: 'Attends un peu, j’apporte le ballon ! Celui qui gagne choisit l’équipe sur PlayStation !' }
+        ],
+        quiz: [
+          {
+            type: 'mcq',
+            question: 'Tu viens de gagner le match sur PlayStation ! Que cries-tu ?',
+            options: ['Ana rbe7t!', 'Sber chwiya!', 'Ana ji3an!', 'Chkon ghadi yebda?'],
+            answer: 0,
+            vocabId: 'u4_v6',
+            explanation: '« Ana rbe7t! » = J’ai gagné !'
+          },
+          {
+            type: 'mcq',
+            question: 'Ton cousin veut arrêter, mais tu veux ta revanche. Que lui dis-tu ?',
+            options: ['Safi, chbe3t', 'N3awdo nel3bo!', 'Kif dazet tri9?', '3tini lma'],
+            answer: 1,
+            vocabId: 'u4_v7',
+            explanation: '« N3awdo nel3bo! » = On rejoue !'
+          },
+          {
+            type: 'mcq',
+            question: '🔄 Rappel Unité 3 : Après le match de foot, tu as super soif. Que dis-tu à Youssef ?',
+            options: ['Bghit nechreb lma 3afak!', 'Kidayra lmedrasa?', 'Twa7echtkom', 'Chnou kat9ra?'],
+            answer: 0,
+            vocabId: 'u3_v3',
+            explanation: 'Super ! Tu combines le foot et les phrases de l’Unité 3 !'
+          }
+        ],
+        builder: [
+          {
+            promptFr: 'Demande à ton cousin : « Tu es avec moi ou contre moi ? »',
+            words: ['Nta', 'm3aya', 'wella', 'deddi?'],
+            distractors: ['rbe7t', 'bnina'],
+            vocabId: 'u4_v5'
+          },
+          {
+            promptFr: 'Propose : « Allez, on joue au foot ! »',
+            words: ['Yallah', 'nel3bo', 'lkora!'],
+            distractors: ['Sber', 'lmakla'],
+            vocabId: 'u4_v2'
+          }
+        ],
+        roleplay: {
+          character: 'Cousin Youssef 👦🏽',
+          characterLineDarija: 'Sami ! Wach bghiti tel3eb PlayStation ? Nel3bo ana o yyak FIFA !',
+          characterLineFr: 'Sami ! Tu veux jouer à la PlayStation ? On joue toi et moi à FIFA !',
+          missionFr: 'Accepte de jouer avec Youssef, demande qui commence ou propose une revanche !',
+          expectedKeywords: ['yallah', 'nel3bo', 'bghit', 'chkon', 'yebda', 'sber', 'm3ak', 'rbe7', 'playstation', 'iyyeh', 'wakha'],
+          modelDarija: 'Iyyeh, yallah nel3bo PlayStation ! Sber chwiya, chkon ghadi yebda ?',
+          modelFr: 'Oui, allez on joue à la PlayStation ! Attends un peu, qui va commencer ?'
+        }
+      },
+
+      {
+        id: 5,
+        code: 'U5',
+        titleDarija: 'Fin n7ett hadi?',
+        titleFr: 'À la maison : demander et aider',
+        subtitle: 'Demander la permission, chercher un objet et aider en famille',
+        badgeId: 'badge_helper',
+        badgeName: 'Super Serviable',
+        badgeIcon: '🔑',
+        sceneType: 'home',
+        storyIntro: "Il fait un peu chaud dehors, tout le monde rentre à la maison. Tu cherches ton chargeur, tu veux aider Jeddati à ranger la table et demander la permission de ressortir jouer avec les cousins.",
+        culturalTip: "Pour demander où se trouve quelque chose : « Fin kayn… ? » (masculin, ex : Fin kayn telephone?) et « Fin kayna… ? » (féminin, ex : Fin kayna lkora?). Et n'oublie jamais « Sme7 liya » (Excuse-moi) et « Chokran bezzaf » (Merci beaucoup) !",
+        vocab: [
+          { id: 'u5_v1', darija: 'Fin kayn...? / Fin kayna...?', arabic: 'فين كاين...؟ / فين كاينا...؟', fr: 'Où est... ? (m. / f.)', context: 'Ex : Fin kayna lkora? (Où est le ballon ?)', icon: '🔍', audioFile: '' },
+          { id: 'u5_v2', darija: 'Fin n7ett hadi?', arabic: 'فين نحط هادي؟', fr: 'Où est-ce que je pose ça ?', context: 'Super utile quand tu aides à ranger ou débarrasser.', icon: '📦', audioFile: '' },
+          { id: 'u5_v3', darija: 'Wach ne9der nekhrej?', arabic: 'واش نقدر نخرج؟', fr: 'Est-ce que je peux sortir ?', context: 'Pour demander la permission à Papa, Maman ou Jeddo.', icon: '🚪', audioFile: '' },
+          { id: 'u5_v4', darija: 'Momkin t3awenni?', arabic: 'ممكن تعاوني؟', fr: 'Tu peux m’aider ?', context: 'Poli et direct, avec les adultes comme avec les cousins.', icon: '🤝', audioFile: '' },
+          { id: 'u5_v5', darija: 'Bghit nemchi nel3eb', arabic: 'بغيت نمشي نلعب', fr: 'Je veux aller jouer', context: 'Très pratique pour expliquer où tu vas !', icon: '🏃', audioFile: '' },
+          { id: 'u5_v6', darija: '3afak 3tini...', arabic: 'عافاك عطيني...', fr: 'S’il te plaît donne-moi...', context: 'Ex : 3afak 3tini lchargeur / lmanette.', icon: '🙏', audioFile: '' },
+          { id: 'u5_v7', darija: 'Sme7 liya', arabic: 'سمح ليا', fr: 'Excuse-moi / Pardon (à un garçon/homme)', context: 'À une fille/femme, on dit « Sem7i liya ».', icon: '😅', audioFile: '' },
+          { id: 'u5_v8', darija: 'Chokran bezzaf', arabic: 'شكراً بزاف', fr: 'Merci beaucoup', context: 'Toujours apprécié dans toute la famille !', icon: '💛', audioFile: '' }
+        ],
+        dialogue: [
+          { speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', darija: 'Sem7i liya Jeddati, fin n7ett had lkas ?', fr: 'Excuse-moi Grand-mère, où est-ce que je pose ce verre ?' },
+          { speaker: 'Jeddati', avatar: '👵', side: 'left', darija: '7etto f lkouzina a weldi, chokran !', fr: 'Pose-le dans la cuisine mon fils, merci !' },
+          { speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', darija: 'Baba, fin kayna lkora ? Wach ne9der nekhrej ? Bghit nemchi nel3eb m3a Youssef.', fr: 'Papa, où est le ballon ? Est-ce que je peux sortir ? Je veux aller jouer avec Youssef.' },
+          {
+            speaker: 'Papa', avatar: '👨🏻', side: 'left', darija: 'Lkora 7da lbab ! Iyyeh, sir tel3eb walakin raje3 bekri.', fr: 'Le ballon est près de la porte ! Oui, va jouer mais rentre tôt.'
+          },
+          {
+            speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', interactive: true,
+            promptFr: 'Papa te donne la permission de sortir jouer. Comment le remercies-tu ?',
+            options: [
+              { darija: 'Wakha a Baba, chokran bezzaf !', fr: 'D’accord Papa, merci beaucoup !', correct: true, feedback: 'Parfait ! « Wakha » (d’accord) + « Chokran bezzaf » = 10/10.' },
+              { darija: 'Ana rbe7t a Baba !', fr: 'J’ai gagné Papa !', correct: false, feedback: 'Tu n’as pas encore commencé le match ! Remercie plutôt Papa.' },
+              { darija: 'Zidni chwiya a Baba.', fr: 'Remets-m’en un peu Papa.', correct: false, feedback: 'C’est pour la nourriture à table !' }
+            ]
+          }
+        ],
+        quiz: [
+          {
+            type: 'mcq',
+            question: 'Tu veux demander à ton père si tu peux sortir dehors. Que dis-tu ?',
+            options: ['Wach ne9der nekhrej?', 'Fin n7ett hadi?', 'Chkon ghadi yebda?', 'Bssa7a o ra7a'],
+            answer: 0,
+            vocabId: 'u5_v3',
+            explanation: '« Wach ne9der nekhrej? » = Est-ce que je peux sortir ?'
+          },
+          {
+            type: 'mcq',
+            question: 'Tu n’arrives pas à brancher la PlayStation. Tu demandes de l’aide à ton cousin :',
+            options: ['Safi chbe3t', 'Momkin t3awenni?', 'Kidayra lmedrasa?', 'Ana ji3an'],
+            answer: 1,
+            vocabId: 'u5_v4',
+            explanation: '« Momkin t3awenni? » = Tu peux m’aider ?'
+          },
+          {
+            type: 'mcq',
+            question: 'Trouve l’erreur : Sami dit « Sme7 liya » à sa tante (Khalti). Quelle est la forme la plus naturelle pour une femme ?',
+            options: ['Sem7i liya', 'Sme7kom', 'Sber chwiya', 'Mer7ba bik'],
+            answer: 0,
+            vocabId: 'u5_v7',
+            explanation: 'Bien vu ! « Sme7 liya » pour un homme, « Sem7i liya » pour une femme.'
+          }
+        ],
+        builder: [
+          {
+            promptFr: 'Demande la permission : « Est-ce que je peux sortir ? »',
+            words: ['Wach', 'ne9der', 'nekhrej?'],
+            distractors: ['chbe3t', 'Chokran'],
+            vocabId: 'u5_v3'
+          },
+          {
+            promptFr: 'Dis : « Je veux aller jouer »',
+            words: ['Bghit', 'nemchi', 'nel3eb'],
+            distractors: ['Fin', 'bnina'],
+            vocabId: 'u5_v5'
+          }
+        ],
+        roleplay: {
+          character: 'Papa 👨🏻',
+          characterLineDarija: 'Chnou kat9elleb a Sami ? Bghiti chi 7aja ?',
+          characterLineFr: 'Qu’est-ce que tu cherches Sami ? Tu veux quelque chose ?',
+          missionFr: 'Demande à Papa où est le ballon (ou la manette), demande si tu peux sortir jouer et dis merci !',
+          expectedKeywords: ['fin', 'kayn', 'kayna', 'ne9der', 'neqder', 'nekhrej', 'bghit', 'nel3eb', 'chokran', 'shokran', '3afak'],
+          modelDarija: 'Baba, fin kayna lkora ? Wach ne9der nekhrej ? Bghit nemchi nel3eb m3a s7abi. Chokran bezzaf !',
+          modelFr: 'Papa, où est le ballon ? Est-ce que je peux sortir ? Je veux aller jouer avec mes amis. Merci beaucoup !'
+        }
+      },
+
+      {
+        id: 6,
+        code: 'U6',
+        titleDarija: 'Ghadi nzoro l3a2ila!',
+        titleFr: 'Visite chez les proches & au revoir',
+        subtitle: 'Rendre visite à Khalti, remercier pour l’hospitalité et dire au revoir',
+        badgeId: 'badge_family',
+        badgeName: 'Ambassadeur de la Famille',
+        badgeIcon: '🌟',
+        sceneType: 'farewell',
+        storyIntro: "En fin d'après-midi, vous rendez visite à ta tante (Khalti Fatima) et ton oncle (Khali Hassan) pour le goûter marocain. Puis, à la tombée du soir, il est temps de remercier tout le monde et de dire au revoir.",
+        culturalTip: "Au Maroc, les au revoir sont toujours chaleureux et pleins de belles bénédictions : « Allah ykhellikom » (Que Dieu vous garde), « Thellaw fraskom » (Prenez soin de vous) et « Bsslama » (Au revoir, allez en paix).",
+        vocab: [
+          { id: 'u6_v1', darija: 'Salam 3alikom, kidayrin?', arabic: 'السلام عليكم، كيدايرين؟', fr: 'Bonjour, comment allez-vous ?', context: '« Kidayrin » s’utilise quand on parle à plusieurs personnes.', icon: '👨‍👩‍👧‍👦', audioFile: '' },
+          { id: 'u6_v2', darija: 'Labas 3likom?', arabic: 'لاباس عليكم؟', fr: 'Vous allez bien ?', context: 'Très chaleureux en entrant chez l’oncle ou la tante.', icon: '😄', audioFile: '' },
+          { id: 'u6_v3', darija: 'Fer7an bach cheftkom', arabic: 'فرحان باش شفتكم', fr: 'Je suis content de vous voir', context: 'Pour une fille : « Fer7ana bach cheftkom ».', icon: '🥰', audioFile: '' },
+          { id: 'u6_v4', darija: 'Allah ykhellikom', arabic: 'الله يخليكم', fr: 'Que Dieu vous garde (Merci !)', context: 'Formule de respect et d’affection envers les adultes.', icon: '🤲', audioFile: '' },
+          { id: 'u6_v5', darija: 'Chokran 3la ddiyafa', arabic: 'شكراً على الضيافة', fr: 'Merci pour l’hospitalité', context: 'La phrase en or avant de quitter la maison d’un proche !', icon: '🫖', audioFile: '' },
+          { id: 'u6_v6', darija: 'Nchofkom men be3d', arabic: 'نشوفكم من بعد', fr: 'À bientôt / On se voit plus tard', context: 'Parfait quand tu vas les revoir pendant les vacances.', icon: '📅', audioFile: '' },
+          { id: 'u6_v7', darija: 'Thellaw fraskom', arabic: 'تهلاو فراسكم', fr: 'Prenez soin de vous', context: 'À une seule personne : « Thella frasek » (m.) / « Thellay frasek » (f.).', icon: '💚', audioFile: '' },
+          { id: 'u6_v8', darija: 'Bsslama!', arabic: 'بالسلامة!', fr: 'Au revoir !', context: 'Le mot incontournable pour se quitter avec le sourire.', icon: '👋', audioFile: '' }
+        ],
+        dialogue: [
+          { speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', darija: 'Salam 3alikom Khalti ! Salam Khali ! Labas 3likom ? Fer7an bach cheftkom !', fr: 'Bonjour Tante ! Bonjour Oncle ! Vous allez bien ? Je suis content de vous voir !' },
+          { speaker: 'Khalti Fatima', avatar: '👩🏽‍🦱', side: 'left', darija: 'Wa 3alikom salam a Sami ! Mer7ba bikom ! Kberti tbarkellah ! Kol msemen o chreb atay.', fr: 'Bonjour Sami ! Soyez les bienvenus ! Comme tu as grandi ! Mange des msemen et bois du thé.' },
+          { speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', darija: 'Allah ye3tik ssa7a Khalti ! Had lmsemen bnin bezzaf !', fr: 'Merci Tante ! Ces msemen sont très délicieux !' },
+          { speaker: 'Khali Hassan', avatar: '👨🏽‍🦳', side: 'left', darija: 'Ghadi temchiw daba ? B9aw chwiya !', fr: 'Vous partez déjà ? Restez encore un peu !' },
+          {
+            speaker: 'Toi (Sami)', avatar: '🧒', side: 'right', interactive: true,
+            promptFr: 'Il est temps de partir. Remercie Khalti et Khali pour leur accueil et dis au revoir !',
+            options: [
+              { darija: 'Chokran 3la ddiyafa ! Thellaw fraskom, nchofkom men be3d. Bsslama !', fr: 'Merci pour l’hospitalité ! Prenez soin de vous, à bientôt. Au revoir !', correct: true, feedback: 'Magnifique ! Un vrai pro de la politesse marocaine !' },
+              { darija: 'Nta m3aya wella deddi a Khali ?', fr: 'Tu es avec moi ou contre moi mon oncle ?', correct: false, feedback: 'Haha, garde ça pour le match de foot avec Youssef !' },
+              { darija: 'Ana ji3an bezzaf, fin kayna lkora ?', fr: 'J’ai très faim, où est le ballon ?', correct: false, feedback: 'Oups ! Ici on dit merci et au revoir.' }
+            ]
+          }
+        ],
+        quiz: [
+          {
+            type: 'mcq',
+            question: 'Tu entres dans une pièce où il y a ton oncle, ta tante et tes cousins. Comment demander « Comment allez-vous ? » ?',
+            options: ['Salam 3alikom, kidayrin?', 'Kidayr?', 'Sber chwiya', 'Ana rbe7t'],
+            answer: 0,
+            vocabId: 'u6_v1',
+            explanation: '« Kidayrin? » est la forme au pluriel pour s’adresser à plusieurs personnes.'
+          },
+          {
+            type: 'mcq',
+            question: 'Avant de quitter la maison de ta tante, tu veux la remercier pour son accueil :',
+            options: ['Chokran 3la ddiyafa!', 'Fin n7ett hadi?', 'Wach bghiti tel3eb?', 'Kif dazet tri9?'],
+            answer: 0,
+            vocabId: 'u6_v5',
+            explanation: '« Chokran 3la ddiyafa » = Merci pour l’hospitalité.'
+          },
+          {
+            type: 'mcq',
+            question: 'Que signifie « Thellaw fraskom » ?',
+            options: ['Bon appétit', 'Prenez soin de vous', 'Je veux jouer', 'Où est l’eau ?'],
+            answer: 1,
+            vocabId: 'u6_v7',
+            explanation: '« Thellaw fraskom » est l’expression chaleureuse pour dire « Prenez soin de vous ».'
+          }
+        ],
+        builder: [
+          {
+            promptFr: 'Dis : « Je suis content de vous voir »',
+            words: ['Fer7an', 'bach', 'cheftkom'],
+            distractors: ['ji3an', 'tri9'],
+            vocabId: 'u6_v3'
+          },
+          {
+            promptFr: 'Dis : « Merci pour l’hospitalité, au revoir ! »',
+            words: ['Chokran', '3la', 'ddiyafa,', 'bsslama!'],
+            distractors: ['nel3bo', 's7abi'],
+            vocabId: 'u6_v5'
+          }
+        ],
+        roleplay: {
+          character: 'Khalti Fatima 👩🏽‍🦱',
+          characterLineDarija: 'Safi ghadi temchiw ? Fer7t bezzaf li jito ! Thella frasek a Sami !',
+          characterLineFr: 'Vous partez déjà ? Je suis très contente que vous soyez venus ! Prends soin de toi Sami !',
+          missionFr: 'Remercie Khalti pour son accueil, dis-lui que tu es content de les avoir vus et dis au revoir !',
+          expectedKeywords: ['chokran', 'shokran', 'diyafa', 'ddiyafa', 'fer7an', 'ferhan', 'bsslama', 'bslama', 'thella', 'nchofkom', 'allah'],
+          modelDarija: 'Chokran 3la ddiyafa a Khalti ! Fer7an bach cheftkom. Thellaw fraskom, bsslama !',
+          modelFr: 'Merci pour l’hospitalité Tante ! Je suis content de vous voir. Prenez soin de vous, au revoir !'
+        }
+      }
+    ];
+
+    /* Final Adventure Assessment — 7 Realistic Sequential Missions */
+    const FINAL_ADVENTURE_STEPS = [
+      {
+        id: 'f1',
+        stage: 'Matin — Arrivée chez Jeddo & Jeddati',
+        icon: '🏡',
+        character: 'Jeddo 👴 & Jeddati 👵',
+        lineDarija: 'Salam 3alikom a Sami ! Mer7ba bik ! Labas 3lik ? Kif dazet tri9 ?',
+        lineFr: 'Bonjour Sami ! Bienvenue ! Tu vas bien ? Comment s’est passé le voyage ?',
+        type: 'choice',
+        prompt: 'Choisis la meilleure réponse naturelle en Darija :',
+        options: [
+          { text: 'Wa 3alikom salam ! Labas l7amdullah, twa7echtkom bezzaf !', correct: true },
+          { text: 'Bsslama Jeddo, chokran 3la ddiyafa !', correct: false },
+          { text: 'Ana rbe7t f PlayStation !', correct: false }
+        ],
+        skillTag: 'Saluer & répondre avec chaleur',
+        vocabRef: 'u1_v6'
+      },
+      {
+        id: 'f2',
+        stage: 'Salon — Questions de la famille',
+        icon: '💬',
+        character: '3emmi Karim 👨🏽',
+        lineDarija: 'Ach khbarek a weldi ? Kidayra lmedrasa ? O chnou kay3ejbek ddir ?',
+        lineFr: 'Quoi de neuf mon fils ? Comment va l’école ? Et qu’est-ce que tu aimes faire ?',
+        type: 'open',
+        prompt: 'Écris ta propre réponse en Darija (parle de l’école ou de ce que tu aimes : foot, PlayStation, amis) :',
+        keywords: ['mezyan', 'labas', 'kay3ejebni', 'kay3jbni', 'kora', 'playstation', 'nel3eb', 's7abi', 'medrasa'],
+        model: 'Lmedrasa mezyana ! Kay3ejebni nel3eb lkora o PlayStation m3a s7abi.',
+        skillTag: 'Parler de l’école et de ses passions',
+        vocabRef: 'u2_v5'
+      },
+      {
+        id: 'f3',
+        stage: 'Midi — À table autour du tajine',
+        icon: '🍲',
+        character: 'Jeddati 👵',
+        lineDarija: 'Yallah a 7bibi, bssa7a o ra7a ! Kif jak tajine ? Wach bghiti lma ?',
+        lineFr: 'Allez mon chéri, bon appétit ! Comment trouves-tu le tajine ? Tu veux de l’eau ?',
+        type: 'choice',
+        prompt: 'Comment répondre poliment et demander de l’eau ?',
+        options: [
+          { text: 'Allah ye3tik ssa7a ! Had lmakla bnina, 3tini lma 3afak.', correct: true },
+          { text: 'Mer7ba bik Jeddati, fin kayna lkora ?', correct: false },
+          { text: 'Sber chwiya, chkon ghadi yebda ?', correct: false }
+        ],
+        skillTag: 'Politesse à table & demander à boire',
+        vocabRef: 'u3_v4'
+      },
+      {
+        id: 'f4',
+        stage: 'Après-midi — Rencontre avec Cousin Youssef',
+        icon: '⚽',
+        character: 'Cousin Youssef 👦🏽',
+        lineDarija: 'Salam Sami ! Wach bghiti tel3eb lkora wella PlayStation ?',
+        lineFr: 'Salut Sami ! Tu veux jouer au foot ou à la PlayStation ?',
+        type: 'choice',
+        prompt: 'Réponds à ton cousin pour lancer la partie :',
+        options: [
+          { text: 'Yallah nel3bo lkora ! Nta m3aya wella deddi ?', correct: true },
+          { text: 'Safi, chbe3t bezzaf !', correct: false },
+          { text: 'Chokran 3la ddiyafa a Youssef.', correct: false }
+        ],
+        skillTag: 'Proposer un jeu aux cousins',
+        vocabRef: 'u4_v2'
+      },
+      {
+        id: 'f5',
+        stage: 'Tournoi — En plein match !',
+        icon: '🎮',
+        character: 'Cousin Youssef 👦🏽',
+        lineDarija: 'Goal ! 2-1 ! Wach baghi t3awed tel3eb ?',
+        lineFr: 'But ! 2-1 ! Tu veux rejouer ?',
+        type: 'open',
+        prompt: 'Réponds librement en Darija (ex : propose de rejouer, dis « attends un peu » ou « je vais gagner ») :',
+        keywords: ['n3awdo', 'nel3bo', 'yallah', 'sber', 'rbe7', 'iyyeh', 'wakha', 'chkon', 'yebda'],
+        model: 'Iyyeh ! N3awdo nel3bo ! Sber chwiya, had lmerra ana ghadi nerbe7 !',
+        skillTag: 'Interagir pendant le jeu',
+        vocabRef: 'u4_v7'
+      },
+      {
+        id: 'f6',
+        stage: 'À la maison — Demander permission & aide',
+        icon: '🔑',
+        character: 'Papa 👨🏻',
+        lineDarija: 'Sami, fin ghadi ? O chnou 3andek f yeddek ?',
+        lineFr: 'Sami, où vas-tu ? Et qu’est-ce que tu as dans la main ?',
+        type: 'choice',
+        prompt: 'Tu veux demander où poser le plateau et si tu peux sortir jouer :',
+        options: [
+          { text: 'Fin n7ett hadi ? O wach ne9der nekhrej nel3eb ? Chokran !', correct: true },
+          { text: 'Ana ji3an, zidni chwiya !', correct: false },
+          { text: 'Kif dazet tri9 a Baba ?', correct: false }
+        ],
+        skillTag: 'Demander permission et aider à la maison',
+        vocabRef: 'u5_v3'
+      },
+      {
+        id: 'f7',
+        stage: 'Soir — Au revoir à Khalti & Khali',
+        icon: '🌟',
+        character: 'Khalti Fatima 👩🏽‍🦱 & Khali Hassan 👨🏽‍🦳',
+        lineDarija: 'Fer7na bezzaf li jito ! Thella frasek a Sami !',
+        lineFr: 'Nous sommes très contents que vous soyez venus ! Prends soin de toi Sami !',
+        type: 'open',
+        prompt: 'Dis merci pour l’hospitalité et dis au revoir en Darija :',
+        keywords: ['chokran', 'shokran', 'diyafa', 'ddiyafa', 'bsslama', 'bslama', 'thella', 'nchofkom', 'fer7an', 'allah'],
+        model: 'Chokran 3la ddiyafa ! Fer7an bach cheftkom. Thellaw fraskom, bsslama !',
+        skillTag: 'Remercier et dire au revoir',
+        vocabRef: 'u6_v5'
+      }
+    ];
+
+    /* Badges Metadata */
+    const BADGES = [
+      { id: 'badge_welcome', name: 'Champion de l’Accueil', desc: 'Terminer l’Unité 1 (Arrivée)', icon: '🏡' },
+      { id: 'badge_chat', name: 'As de la Discussion', desc: 'Terminer l’Unité 2 (Famille)', icon: '⚽' },
+      { id: 'badge_food', name: 'Fin Gourmet du Tajine', desc: 'Terminer l’Unité 3 (À table)', icon: '🍲' },
+      { id: 'badge_gamer', name: 'Capitaine & Gamer', desc: 'Terminer l’Unité 4 (Jeux)', icon: '🎮' },
+      { id: 'badge_helper', name: 'Super Serviable', desc: 'Terminer l’Unité 5 (Maison)', icon: '🔑' },
+      { id: 'badge_family', name: 'Ambassadeur Famille', desc: 'Terminer l’Unité 6 (Visites)', icon: '🌟' },
+      { id: 'badge_reviewer', name: 'Mémoire d’Éléphant', desc: 'Compléter une session de révision', icon: '🧠' },
+      { id: 'badge_champion', name: 'Héros du Maroc', desc: 'Réussir le Défi Final', icon: '👑' }
+    ];
+
+    /* =========================================================================
+       2. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
+       ========================================================================= */
+    const STORAGE_KEY = 'darija_family_adventure_v1';
+
+    const DEFAULT_STATE = {
+      xp: 0,
+      lastUnitId: 1,
+      completedUnits: [],
+      badges: [],
+      mistakes: [],       // Array of vocab IDs the child missed
+      masteredVocab: [],  // Array of vocab IDs mastered
+      showArabic: true,
+      finalBestScore: null
+    };
+
+    let state = loadState();
+    let currentView = 'home';
+    let activeUnitId = state.lastUnitId || 1;
+    let activeUnitTab = 'scene'; // scene | vocab | dialogue | quiz | builder | roleplay
+
+    // Temporary in-session interactive state
+    let dialogueSelections = {};
+    let quizAnswers = {};
+    let builderState = {};
+    let roleplayEvaluations = {};
+    let showDialogueTranslation = true;
+
+    // Voice recorder state
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let recordedAudioUrl = null;
+    let isRecording = false;
+
+    // Review (SRS) session state
+    let reviewDeck = [];
+    let reviewIndex = 0;
+    let reviewRevealed = false;
+    let reviewMode = 'smart'; // smart | m1 (U1-U2) | m2 (U3-U4) | all
+
+    // Final Adventure session state
+    let finalStepIndex = 0;
+    let finalResults = [];
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return { ...DEFAULT_STATE };
+        return { ...DEFAULT_STATE, ...JSON.parse(raw) };
+      } catch (e) {
+        console.warn('LocalStorage unavailable, using session memory.', e);
+        return { ...DEFAULT_STATE };
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        console.warn('Could not persist state.', e);
+      }
+      updateHUD();
+    }
+
+    function addXP(amount, reason = '') {
+      state.xp += amount;
+      saveState();
+      showToast(`+${amount} XP ${reason ? '— ' + reason : ''}`, 'xp');
+    }
+
+    function unlockBadge(badgeId) {
+      if (!state.badges.includes(badgeId)) {
+        state.badges.push(badgeId);
+        saveState();
+        const b = BADGES.find(x => x.id === badgeId);
+        if (b) {
+          showToast(`🏆 Nouveau badge débloqué : ${b.name} !`, 'badge');
+        }
+      }
+    }
+
+    function recordMistake(vocabId) {
+      if (vocabId && !state.mistakes.includes(vocabId)) {
+        state.mistakes.push(vocabId);
+        saveState();
+      }
+    }
+
+    function markMastered(vocabId) {
+      if (!vocabId) return;
+      state.mistakes = state.mistakes.filter(id => id !== vocabId);
+      if (!state.masteredVocab.includes(vocabId)) {
+        state.masteredVocab.push(vocabId);
+      }
+      saveState();
+    }
+
+    function getAllVocab() {
+      return UNITS.flatMap(u => u.vocab.map(v => ({ ...v, unitId: u.id, unitTitle: u.titleDarija })));
+    }
+
+    function getLevelTitle(xp) {
+      if (xp >= 450) return '👑 As de la Darija';
+      if (xp >= 280) return '🚀 Champion du Maroc';
+      if (xp >= 120) return '🧭 Voyageur Curieux';
+      return '🌱 Explorateur';
+    }
+
+    function updateHUD() {
+      document.getElementById('hud-xp').textContent = `${state.xp} XP`;
+      document.getElementById('hud-level').textContent = getLevelTitle(state.xp);
+
+      const totalMilestones = UNITS.length + 1; // 6 units + Final Adventure
+      const done = state.completedUnits.length + (state.finalBestScore !== null ? 1 : 0);
+      const pct = Math.min(100, Math.round((done / totalMilestones) * 100));
+
+      document.getElementById('global-progress-bar').style.width = `${pct}%`;
+      document.getElementById('global-progress-text').textContent = `${pct}% complété`;
+
+      // Mistakes counter badge
+      const mBadge = document.getElementById('mistakes-badge');
+      if (state.mistakes.length > 0) {
+        mBadge.textContent = state.mistakes.length;
+        mBadge.classList.remove('hidden');
+      } else {
+        mBadge.classList.add('hidden');
+      }
+
+      // Active nav highlighting
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-teal-700', 'text-white', 'shadow-sm');
+        btn.classList.add('text-slate-600', 'hover:bg-slate-100');
+      });
+      const activeNav = document.getElementById(`nav-${currentView === 'unit' ? 'home' : currentView}`);
+      if (activeNav) {
+        activeNav.classList.remove('text-slate-600', 'hover:bg-slate-100');
+        activeNav.classList.add('bg-teal-700', 'text-white', 'shadow-sm');
+      }
+    }
+
+    /* =========================================================================
+       3. AUDIO ENGINE (Web Speech API + Native Audio Ready + Transparent Note)
+       ========================================================================= */
+    function speakDarija(text, arabicText = '', audioFile = '') {
+      // 1. Future-proof hook for native Moroccan audio recordings
+      if (audioFile) {
+        const audio = new Audio(audioFile);
+        audio.play().catch(() => fallbackTTS(text, arabicText));
+        return;
+      }
+      fallbackTTS(text, arabicText);
+    }
+
+    function fallbackTTS(text, arabicText) {
+      if (!('speechSynthesis' in window)) {
+        showToast('Audio non supporté par ce navigateur. Lis la transcription phonétique !', 'info');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const voices = window.speechSynthesis.getVoices();
+      const arVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ar'));
+
+      const utter = new SpeechSynthesisUtterance(arVoice && arabicText ? arabicText : text.replace(/3/g, 'a').replace(/7/g, 'h').replace(/9/g, 'k'));
+      utter.lang = arVoice ? arVoice.lang : 'fr-FR';
+      if (arVoice) utter.voice = arVoice;
+      utter.rate = 0.88;
+      window.speechSynthesis.speak(utter);
+    }
+
+    /* =========================================================================
+       4. CUSTOM MOROCCAN SVG ILLUSTRATIONS (Authentic, Colorful, Zero External URLs)
+       ========================================================================= */
+    function renderSceneSVG(type) {
+      const scenes = {
+        arrival: `
+          <svg viewBox="0 0 600 210" class="w-full h-44 sm:h-52 rounded-2xl shadow-inner" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#38BDF8"/>
+                <stop offset="100%" stop-color="#FEF3C7"/>
+              </linearGradient>
+            </defs>
+            <rect width="600" height="210" fill="url(#sky1)"/>
+            <!-- Sun -->
+            <circle cx="520" cy="48" r="28" fill="#FBBF24" opacity="0.9"/>
+            <!-- Moroccan House Facade -->
+            <rect x="110" y="38" width="380" height="172" rx="8" fill="#FFF7ED" stroke="#FDBA74" stroke-width="3"/>
+            <!-- Zellige Top Band -->
+            <rect x="110" y="38" width="380" height="16" fill="#0F766E"/>
+            <rect x="110" y="54" width="380" height="6" fill="#F59E0B"/>
+            <!-- Horseshoe Arch Doorway -->
+            <path d="M245 210 L245 125 Q245 78 300 78 Q355 78 355 125 L355 210 Z" fill="#0F766E"/>
+            <path d="M256 210 L256 128 Q256 90 300 90 Q344 90 344 128 L344 210 Z" fill="#9A3412"/>
+            <!-- Windows -->
+            <rect x="145" y="95" width="52" height="58" rx="26" fill="#1D4ED8" stroke="#F59E0B" stroke-width="4"/>
+            <rect x="403" y="95" width="52" height="58" rx="26" fill="#1D4ED8" stroke="#F59E0B" stroke-width="4"/>
+            <!-- Potted Plants -->
+            <circle cx="215" cy="175" r="18" fill="#16A34A"/>
+            <rect x="206" y="185" width="18" height="22" rx="3" fill="#C2410C"/>
+            <circle cx="385" cy="175" r="18" fill="#16A34A"/>
+            <rect x="376" y="185" width="18" height="22" rx="3" fill="#C2410C"/>
+            <!-- Speech Bubble -->
+            <rect x="368" y="18" width="135" height="34" rx="14" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+            <text x="435" y="40" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="14" fill="#0F766E">Mer7ba bik! 🏡</text>
+          </svg>`,
+        livingroom: `
+          <svg viewBox="0 0 600 210" class="w-full h-44 sm:h-52 rounded-2xl shadow-inner" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="210" fill="#FEF3C7"/>
+            <!-- Wall Arch -->
+            <path d="M180 180 L180 70 Q180 25 300 25 Q420 25 420 70 L420 180 Z" fill="#FFFBEB" stroke="#D97706" stroke-width="3"/>
+            <!-- Moroccan Sedari (Sofa) -->
+            <rect x="40" y="128" width="520" height="62" rx="12" fill="#0F766E"/>
+            <rect x="55" y="114" width="75" height="32" rx="10" fill="#F59E0B"/>
+            <rect x="145" y="114" width="75" height="32" rx="10" fill="#EA580C"/>
+            <rect x="380" y="114" width="75" height="32" rx="10" fill="#EA580C"/>
+            <rect x="470" y="114" width="75" height="32" rx="10" fill="#F59E0B"/>
+            <!-- Round Tea Table -->
+            <ellipse cx="300" cy="178" rx="105" ry="24" fill="#92400E"/>
+            <ellipse cx="300" cy="173" rx="95" ry="18" fill="#B45309"/>
+            <!-- Mint Tea Pot -->
+            <ellipse cx="300" cy="158" rx="18" ry="13" fill="#E2E8F0" stroke="#64748B" stroke-width="2"/>
+            <path d="M282 158 Q268 150 272 142" fill="none" stroke="#64748B" stroke-width="3"/>
+            <!-- Floating Passion Bubbles -->
+            <circle cx="120" cy="60" r="28" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+            <text x="120" y="68" text-anchor="middle" font-size="24">⚽</text>
+            <circle cx="480" cy="60" r="28" fill="#FFFFFF" stroke="#1D4ED8" stroke-width="2"/>
+            <text x="480" y="68" text-anchor="middle" font-size="24">🎮</text>
+            <text x="300" y="72" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="16" fill="#92400E">Ach khbarek? ☕</text>
+          </svg>`,
+        dining: `
+          <svg viewBox="0 0 600 210" class="w-full h-44 sm:h-52 rounded-2xl shadow-inner" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="210" fill="#FFF7ED"/>
+            <!-- Warm Floor Pattern -->
+            <rect x="0" y="155" width="600" height="55" fill="#FFEDD5"/>
+            <!-- Big Round Moroccan Table -->
+            <ellipse cx="300" cy="145" rx="185" ry="48" fill="#B45309"/>
+            <ellipse cx="300" cy="138" rx="175" ry="42" fill="#FEF3C7" stroke="#D97706" stroke-width="3"/>
+            <!-- Tajine in Center -->
+            <ellipse cx="300" cy="140" rx="52" ry="18" fill="#C2410C"/>
+            <path d="M256 136 L293 84 Q300 74 307 84 L344 136 Z" fill="#EA580C" stroke="#9A3412" stroke-width="2"/>
+            <circle cx="300" cy="79" r="7" fill="#9A3412"/>
+            <!-- Steam -->
+            <path d="M286 68 Q280 54 288 42" fill="none" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/>
+            <path d="M312 66 Q318 52 310 40" fill="none" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/>
+            <!-- Moroccan Bread & Glasses -->
+            <circle cx="195" cy="140" r="20" fill="#F59E0B" stroke="#B45309" stroke-width="2"/>
+            <rect x="405" y="118" width="16" height="24" rx="3" fill="#38BDF8" stroke="#0284C7" stroke-width="2"/>
+            <rect x="430" y="122" width="16" height="22" rx="3" fill="#FB923C" stroke="#C2410C" stroke-width="2"/>
+            <rect x="200" y="14" width="200" height="32" rx="14" fill="#0F766E"/>
+            <text x="300" y="35" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="14" fill="#FFFFFF">Bssa7a o ra7a! 🍲</text>
+          </svg>`,
+        play: `
+          <svg viewBox="0 0 600 210" class="w-full h-44 sm:h-52 rounded-2xl shadow-inner" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="210" fill="#DBEAFE"/>
+            <!-- Pitch -->
+            <rect x="0" y="128" width="600" height="82" fill="#22C55E"/>
+            <line x1="0" y1="158" x2="600" y2="158" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8 6"/>
+            <!-- Goal Post -->
+            <rect x="440" y="75" width="110" height="65" fill="none" stroke="#FFFFFF" stroke-width="5"/>
+            <line x1="465" y1="75" x2="465" y2="140" stroke="#FFFFFF" stroke-width="1.5" opacity="0.7"/>
+            <line x1="495" y1="75" x2="495" y2="140" stroke="#FFFFFF" stroke-width="1.5" opacity="0.7"/>
+            <line x1="525" y1="75" x2="525" y2="140" stroke="#FFFFFF" stroke-width="1.5" opacity="0.7"/>
+            <!-- Football -->
+            <circle cx="290" cy="152" r="22" fill="#FFFFFF" stroke="#0F172A" stroke-width="3"/>
+            <polygon points="290,138 299,146 296,158 284,158 281,146" fill="#0F172A"/>
+            <!-- PlayStation Controller Icon Badge -->
+            <rect x="42" y="28" width="168" height="44" rx="16" fill="#1E293B"/>
+            <text x="126" y="56" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="15" fill="#F8FAFC">🎮 Foot &amp; PS5 !</text>
+            <rect x="240" y="28" width="175" height="38" rx="16" fill="#F59E0B"/>
+            <text x="327" y="52" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="14" fill="#0F172A">Yallah nel3bo! ⚽</text>
+          </svg>`,
+        home: `
+          <svg viewBox="0 0 600 210" class="w-full h-44 sm:h-52 rounded-2xl shadow-inner" xmlns="http://www.w3.org/2000/svg">
+            <rect width="600" height="210" fill="#F0FDFA"/>
+            <!-- Courtyard Floor -->
+            <rect x="0" y="150" width="600" height="60" fill="#CCFBF1"/>
+            <!-- Moroccan Fountain -->
+            <rect x="245" y="138" width="110" height="38" rx="10" fill="#0F766E"/>
+            <ellipse cx="300" cy="138" rx="55" ry="12" fill="#38BDF8" stroke="#0F766E" stroke-width="3"/>
+            <!-- Courtyard Door -->
+            <path d="M80 160 L80 80 Q80 48 120 48 Q160 48 160 80 L160 160 Z" fill="#B45309"/>
+            <!-- Orange Tree -->
+            <rect x="470" y="110" width="16" height="50" fill="#78350F"/>
+            <circle cx="478" cy="86" r="36" fill="#15803D"/>
+            <circle cx="465" cy="78" r="6" fill="#FB923C"/>
+            <circle cx="492" cy="90" r="6" fill="#FB923C"/>
+            <circle cx="478" cy="68" r="6" fill="#FB923C"/>
+            <!-- Banner -->
+            <rect x="195" y="24" width="210" height="36" rx="14" fill="#FFFFFF" stroke="#0F766E" stroke-width="2"/>
+            <text x="300" y="47" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="14" fill="#0F766E">Wach ne9der nekhrej? 🚪</text>
+          </svg>`,
+        farewell: `
+          <svg viewBox="0 0 600 210" class="w-full h-44 sm:h-52 rounded-2xl shadow-inner" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="sunset" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#1E3A8A"/>
+                <stop offset="55%" stop-color="#EA580C"/>
+                <stop offset="100%" stop-color="#FDE68A"/>
+              </linearGradient>
+            </defs>
+            <rect width="600" height="210" fill="url(#sunset)"/>
+            <!-- Crescent & Stars -->
+            <circle cx="95" cy="48" r="14" fill="#FEF08A"/>
+            <circle cx="101" cy="44" r="12" fill="#1E3A8A"/>
+            <circle cx="165" cy="34" r="2.5" fill="#FFFFFF"/>
+            <circle cx="495" cy="42" r="2.5" fill="#FFFFFF"/>
+            <circle cx="430" cy="28" r="2" fill="#FFFFFF"/>
+            <!-- Warm Silhouetted Moroccan Skyline -->
+            <path d="M0 165 L70 165 L70 120 L130 120 L130 165 L230 165 L230 110 L265 110 L265 70 L290 70 L290 110 L330 110 L330 165 L440 165 L440 128 L520 128 L520 165 L600 165 L600 210 L0 210 Z" fill="#0F172A" opacity="0.82"/>
+            <!-- Warm Goodbye Banner -->
+            <rect x="175" y="135" width="250" height="44" rx="16" fill="#FFFFFF" opacity="0.95"/>
+            <text x="300" y="162" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="16" fill="#0F766E">Thellaw fraskom! Bsslama 👋</text>
+          </svg>`
+      };
+      return scenes[type] || scenes.arrival;
+    }
+
+    /* =========================================================================
+       5. NAVIGATION & VIEW ROUTING
+       ========================================================================= */
+    function navigateTo(view, unitId = null) {
+      stopRecordingIfActive();
+      currentView = view;
+      if (unitId !== null) {
+        activeUnitId = unitId;
+        state.lastUnitId = unitId;
+        activeUnitTab = 'scene';
+        saveState();
+      }
+      updateHUD();
+      renderApp();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderApp() {
+      const root = document.getElementById('app-root');
+      if (currentView === 'home') {
+        root.innerHTML = renderHomeView();
+      } else if (currentView === 'unit') {
+        root.innerHTML = renderUnitView(activeUnitId);
+      } else if (currentView === 'review') {
+        root.innerHTML = renderReviewView();
+      } else if (currentView === 'badges') {
+        root.innerHTML = renderBadgesView();
+      } else if (currentView === 'final') {
+        root.innerHTML = renderFinalAdventureView();
+      }
+    }
+
+    /* =========================================================================
+       6. VIEW 1: HOME / ADVENTURE MAP
+       ========================================================================= */
+    function renderHomeView() {
+      const resumeUnit = UNITS.find(u => u.id === state.lastUnitId) || UNITS[0];
+      const completedCount = state.completedUnits.length;
+
+      return `
+        <div class="fade-in space-y-6">
+          <!-- Hero Welcome Card -->
+          <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-teal-700 via-teal-800 to-slate-900 text-white p-6 sm:p-8 shadow-lg">
+            <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div class="max-w-xl">
+                <span class="inline-flex items-center gap-1.5 bg-amber-400/20 border border-amber-300/40 text-amber-200 text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full mb-3">
+                  ✈️ Mission Maroc &bull; Niveau A1 → A2
+                </span>
+                <h1 class="font-display font-black text-2xl sm:text-4xl leading-tight mb-2">
+                  Salam ! Prêt pour ta journée en famille au Maroc ?
+                </h1>
+                <p class="text-teal-100 text-sm sm:text-base leading-relaxed mb-5">
+                  Vis 6 étapes réelles avec Jeddo, Jeddati, tes oncles et tes cousins : salutations, tajine, foot, PlayStation et visites en famille — <strong>100% vraie Darija !</strong>
+                </p>
+                <div class="flex flex-wrap gap-3">
+                  <button onclick="navigateTo('unit', ${resumeUnit.id})" class="btn-3d bg-amber-400 hover:bg-amber-300 text-slate-900 font-display font-black px-5 py-3 rounded-2xl text-sm sm:text-base flex items-center gap-2">
+                    <span>${completedCount > 0 ? '▶️ Continuer : ' + resumeUnit.titleDarija : '🚀 Commencer l’aventure !'}</span>
+                  </button>
+                  <button onclick="openTranscriptionGuide()" class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-4 py-3 rounded-2xl text-sm transition">
+                    📖 Lire les chiffres (3, 7, 9)
+                  </button>
+                </div>
+              </div>
+              <!-- Mini Stats Box -->
+              <div class="bg-white/10 backdrop-blur border border-white/15 rounded-2xl p-4 w-full md:w-56 space-y-2.5">
+                <div class="flex justify-between text-xs text-teal-100">
+                  <span>Étapes réussies</span>
+                  <strong class="text-white">${completedCount} / 6</strong>
+                </div>
+                <div class="flex justify-between text-xs text-teal-100">
+                  <span>Expressions apprises</span>
+                  <strong class="text-white">${state.masteredVocab.length}</strong>
+                </div>
+                <div class="flex justify-between text-xs text-teal-100">
+                  <span>À réviser</span>
+                  <strong class="text-amber-300">${state.mistakes.length}</strong>
+                </div>
+                <div class="pt-1 border-t border-white/15 text-[11px] text-teal-200">
+                  Sauvegarde automatique activée ✅
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Smart Review Reminder if Mistakes Exist -->
+          ${state.mistakes.length > 0 ? `
+            <div class="bg-rose-50 border border-rose-200 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">🧠</span>
+                <div>
+                  <h3 class="font-display font-extrabold text-rose-900 text-sm">Tu as ${state.mistakes.length} expression(s) à renforcer !</h3>
+                  <p class="text-xs text-rose-700">Fais une révision rapide de 1 minute pour les maîtriser définitivement.</p>
+                </div>
+              </div>
+              <button onclick="startReviewSession('smart')" class="btn-3d bg-rose-600 hover:bg-rose-500 text-white text-xs font-extrabold px-4 py-2.5 rounded-xl whitespace-nowrap">
+                Réviser maintenant →
+              </button>
+            </div>
+          ` : ''}
+
+          <!-- 6 Units Adventure Path -->
+          <section>
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="font-display font-black text-xl sm:text-2xl text-slate-900">🗺️ Le Parcours en 6 Étapes</h2>
+              <span class="text-xs font-bold text-slate-500">Clique sur une étape pour jouer</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              ${UNITS.map((u, idx) => {
+                const isDone = state.completedUnits.includes(u.id);
+                const isCurrent = state.lastUnitId === u.id;
+                return `
+                  <div onclick="navigateTo('unit', ${u.id})" class="cursor-pointer group bg-white rounded-2xl border-2 ${isDone ? 'border-emerald-300' : isCurrent ? 'border-teal-500 ring-2 ring-teal-100' : 'border-slate-200 hover:border-teal-400'} p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center justify-between mb-3">
+                        <span class="inline-flex items-center gap-1.5 text-xs font-extrabold px-2.5 py-1 rounded-lg ${isDone ? 'bg-emerald-100 text-emerald-800' : 'bg-teal-50 text-teal-800'}">
+                          Étape ${u.id} ${isDone ? '✅' : ''}
+                        </span>
+                        <span class="text-2xl group-hover:scale-110 transition">${u.badgeIcon}</span>
+                      </div>
+                      <h3 class="font-display font-black text-lg text-slate-900 group-hover:text-teal-700 transition">
+                        ${u.titleDarija}
+                      </h3>
+                      <p class="text-xs font-bold text-amber-700 mb-2">${u.titleFr}</p>
+                      <p class="text-xs text-slate-500 leading-relaxed mb-4">${u.subtitle}</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                      <span class="text-[11px] font-semibold text-slate-400">${u.vocab.length} expressions &bull; Role-play</span>
+                      <span class="text-xs font-extrabold text-teal-700 group-hover:translate-x-1 transition">
+                        ${isDone ? 'Rejouer →' : 'Ouvrir →'}
+                      </span>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+
+            <!-- Spaced Repetition Milestone Shortcuts (After U2 & After U4) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
+              <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center justify-between gap-3">
+                <div>
+                  <span class="text-[11px] font-black uppercase text-amber-700">Répétition Espacée #1</span>
+                  <h4 class="font-display font-extrabold text-slate-900 text-sm">Révision Express : Étapes 1 &amp; 2</h4>
+                  <p class="text-xs text-slate-600">Teste ta mémoire sans voir la traduction tout de suite !</p>
+                </div>
+                <button onclick="startReviewSession('m1')" class="btn-3d bg-amber-500 hover:bg-amber-400 text-white text-xs font-black px-3.5 py-2.5 rounded-xl shrink-0">
+                  Go 🧠
+                </button>
+              </div>
+              <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 flex items-center justify-between gap-3">
+                <div>
+                  <span class="text-[11px] font-black uppercase text-indigo-700">Répétition Espacée #2</span>
+                  <h4 class="font-display font-extrabold text-slate-900 text-sm">Révision Express : Étapes 3 &amp; 4</h4>
+                  <p class="text-xs text-slate-600">À table + Foot &amp; PlayStation en mode mémoire active !</p>
+                </div>
+                <button onclick="startReviewSession('m2')" class="btn-3d bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black px-3.5 py-2.5 rounded-xl shrink-0">
+                  Go 🧠
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Final Adventure Banner -->
+          <section class="rounded-3xl bg-gradient-to-r from-orange-500 via-amber-500 to-teal-600 p-0.5 shadow-md">
+            <div class="bg-white rounded-[22px] p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-4">
+                <div class="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center text-3xl shrink-0">
+                  👑
+                </div>
+                <div>
+                  <span class="text-xs font-black uppercase tracking-wider text-orange-600">Évaluation Finale Interactive</span>
+                  <h3 class="font-display font-black text-lg sm:text-xl text-slate-900">Nhar kamel m3a 3a2ilti f lMaghrib</h3>
+                  <p class="text-xs sm:text-sm text-slate-600">
+                    7 situations enchaînées du matin au soir pour prouver que tu peux parler avec ta famille !
+                    ${state.finalBestScore !== null ? `<strong class="text-emerald-700">Meilleur score : ${state.finalBestScore}/7</strong>` : ''}
+                  </p>
+                </div>
+              </div>
+              <button onclick="navigateTo('final')" class="btn-3d bg-slate-900 hover:bg-slate-800 text-white font-display font-black px-5 py-3 rounded-2xl text-sm whitespace-nowrap">
+                🎯 Lancer le Défi Final
+              </button>
+            </div>
+          </section>
+        </div>
+      `;
+    }
+
+    /* =========================================================================
+       7. VIEW 2: UNIT LEARNING EXPERIENCE (6 PROGRESSIVE TABS)
+       ========================================================================= */
+    function setUnitTab(tab) {
+      stopRecordingIfActive();
+      activeUnitTab = tab;
+      renderApp();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderUnitView(unitId) {
+      const unit = UNITS.find(u => u.id === unitId) || UNITS[0];
+      const tabs = [
+        { id: 'scene', label: '1. Scène', icon: '🎬' },
+        { id: 'vocab', label: '2. Expressions', icon: '🃏' },
+        { id: 'dialogue', label: '3. Dialogue', icon: '💬' },
+        { id: 'quiz', label: '4. Quiz', icon: '🧠' },
+        { id: 'builder', label: '5. Phrases', icon: '🧩' },
+        { id: 'roleplay', label: '6. Mission Orale', icon: '🎤' }
+      ];
+
+      let tabContent = '';
+      if (activeUnitTab === 'scene') tabContent = renderUnitScene(unit);
+      else if (activeUnitTab === 'vocab') tabContent = renderUnitVocab(unit);
+      else if (activeUnitTab === 'dialogue') tabContent = renderUnitDialogue(unit);
+      else if (activeUnitTab === 'quiz') tabContent = renderUnitQuiz(unit);
+      else if (activeUnitTab === 'builder') tabContent = renderUnitBuilder(unit);
+      else if (activeUnitTab === 'roleplay') tabContent = renderUnitRoleplay(unit);
+
+      return `
+        <div class="fade-in space-y-5">
+          <!-- Unit Header Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <button onclick="navigateTo('home')" class="text-xs sm:text-sm font-bold text-slate-500 hover:text-teal-700 flex items-center gap-1">
+              ← Retour à la carte
+            </button>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-extrabold bg-teal-100 text-teal-800 px-3 py-1 rounded-full">
+                Étape ${unit.id} / 6
+              </span>
+              ${state.completedUnits.includes(unit.id) ? `<span class="text-xs font-extrabold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">✅ Terminée</span>` : ''}
+            </div>
+          </div>
+
+          <!-- Unit Title & Stepper -->
+          <div class="bg-white rounded-3xl border border-slate-200 p-4 sm:p-6 shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+              <div>
+                <h1 class="font-display font-black text-2xl sm:text-3xl text-slate-900">
+                  ${unit.badgeIcon} ${unit.titleDarija}
+                </h1>
+                <p class="text-sm font-semibold text-amber-700">${unit.titleFr} — <span class="text-slate-500 font-normal">${unit.subtitle}</span></p>
+              </div>
+              <label class="inline-flex items-center gap-2 text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-xl cursor-pointer self-start">
+                <input type="checkbox" ${state.showArabic ? 'checked' : ''} onchange="toggleArabicScript()" class="rounded text-teal-600 focus:ring-teal-500" />
+                <span>Afficher l’écriture arabe</span>
+              </label>
+            </div>
+
+            <!-- Horizontal Stepper Pills -->
+            <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+              ${tabs.map(t => `
+                <button onclick="setUnitTab('${t.id}')" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-extrabold whitespace-nowrap transition flex items-center gap-1.5 ${
+                  activeUnitTab === t.id
+                    ? 'bg-teal-700 text-white shadow-sm'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }">
+                  <span>${t.icon}</span>
+                  <span>${t.label}</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Active Tab Content -->
+          <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 shadow-sm">
+            ${tabContent}
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleArabicScript() {
+      state.showArabic = !state.showArabic;
+      saveState();
+      renderApp();
+    }
+
+    /* --- TAB 1: VISUAL SCENE --- */
+    function renderUnitScene(unit) {
+      return `
+        <div class="space-y-5 fade-in">
+          ${renderSceneSVG(unit.sceneType)}
+
+          <div class="space-y-3">
+            <h2 class="font-display font-black text-xl text-slate-900">🎬 Le contexte de ta mission</h2>
+            <p class="text-slate-700 text-sm sm:text-base leading-relaxed">${unit.storyIntro}</p>
+          </div>
+
+          <div class="bg-amber-50 border-l-4 border-amber-500 rounded-r-2xl p-4">
+            <div class="text-xs font-black uppercase text-amber-800 mb-1">💡 Astuce Culturelle &amp; Darija</div>
+            <p class="text-sm text-amber-950 leading-relaxed">${unit.culturalTip}</p>
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button onclick="setUnitTab('vocab')" class="btn-3d bg-teal-700 hover:bg-teal-600 text-white font-display font-black px-6 py-3 rounded-2xl text-sm sm:text-base">
+              Découvrir les expressions →
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    /* --- TAB 2: VOCABULARY & CHUNKS --- */
+    function renderUnitVocab(unit) {
+      return `
+        <div class="space-y-5 fade-in">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h2 class="font-display font-black text-xl text-slate-900">🃏 Expressions prêtes à parler</h2>
+              <p class="text-xs sm:text-sm text-slate-500">Clique sur 🔊 pour écouter une aide vocale et répète à voix haute !</p>
+            </div>
+            <span class="text-[11px] bg-slate-100 text-slate-500 px-3 py-1 rounded-lg">
+              ℹ️ Voix synthétique du navigateur (prête pour audios natifs)
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            ${unit.vocab.map(v => `
+              <div class="border border-slate-200 hover:border-teal-400 rounded-2xl p-4 bg-slate-50/70 transition flex flex-col justify-between gap-2">
+                <div class="flex items-start justify-between gap-2">
+                  <div class="flex items-center gap-2.5">
+                    <span class="text-2xl">${v.icon}</span>
+                    <div>
+                      <div class="font-display font-black text-lg text-teal-900 leading-snug">${v.darija}</div>
+                      ${state.showArabic ? `<div class="text-sm text-slate-500 font-medium" dir="rtl">${v.arabic}</div>` : ''}
+                    </div>
+                  </div>
+                  <button onclick="speakDarija('${escapeQuotes(v.darija)}', '${escapeQuotes(v.arabic)}', '${v.audioFile}')" class="w-9 h-9 rounded-xl bg-white border border-slate-200 hover:bg-teal-50 hover:border-teal-300 flex items-center justify-center text-base shrink-0 transition" title="Écouter">
+                    🔊
+                  </button>
+                </div>
+                <div class="bg-white border border-slate-100 rounded-xl px-3 py-2">
+                  <div class="text-sm font-bold text-slate-800">${v.fr}</div>
+                  <div class="text-xs text-slate-500 mt-0.5">${v.context}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="flex justify-between pt-3">
+            <button onclick="setUnitTab('scene')" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold">← Scène</button>
+            <button onclick="setUnitTab('dialogue')" class="btn-3d bg-teal-700 hover:bg-teal-600 text-white font-display font-black px-6 py-3 rounded-2xl text-sm sm:text-base">
+              Passer au dialogue →
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    /* --- TAB 3: INTERACTIVE DIALOGUE --- */
+    function renderUnitDialogue(unit) {
+      return `
+        <div class="space-y-5 fade-in">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 class="font-display font-black text-xl text-slate-900">💬 Dialogue en direct</h2>
+              <p class="text-xs sm:text-sm text-slate-500">Lis le dialogue et choisis la bonne réplique pour continuer !</p>
+            </div>
+            <button onclick="toggleDialogueFr()" class="text-xs font-bold px-3 py-1.5 rounded-xl border ${showDialogueTranslation ? 'bg-amber-50 border-amber-300 text-amber-900' : 'bg-slate-100 border-slate-200 text-slate-600'}">
+              ${showDialogueTranslation ? '🙈 Masquer la traduction (Défi !)' : '👁️ Afficher la traduction'}
+            </button>
+          </div>
+
+          <div class="space-y-4">
+            ${unit.dialogue.map((line, idx) => {
+              const key = `${unit.id}_${idx}`;
+              if (line.interactive) {
+                const chosen = dialogueSelections[key];
+                return `
+                  <div class="bg-teal-50/80 border-2 border-teal-300 rounded-2xl p-4 space-y-3">
+                    <div class="flex items-center gap-2 text-xs font-black uppercase text-teal-800">
+                      <span>🎯 À toi de répondre !</span>
+                    </div>
+                    <p class="text-sm font-semibold text-slate-800">${line.promptFr}</p>
+                    <div class="space-y-2">
+                      ${line.options.map((opt, oIdx) => {
+                        let cls = 'bg-white border-slate-200 hover:border-teal-500 text-slate-800';
+                        if (chosen !== undefined) {
+                          if (chosen === oIdx) {
+                            cls = opt.correct ? 'bg-emerald-50 border-emerald-500 text-emerald-900' : 'bg-rose-50 border-rose-500 text-rose-900';
+                          } else if (opt.correct) {
+                            cls = 'bg-emerald-50/50 border-emerald-300 text-emerald-900';
+                          }
+                        }
+                        return `
+                          <button onclick="selectDialogueOption(${unit.id}, ${idx}, ${oIdx})" class="w-full text-left p-3.5 rounded-xl border-2 transition ${cls}">
+                            <div class="font-display font-extrabold text-sm sm:text-base">${opt.darija}</div>
+                            ${showDialogueTranslation || chosen !== undefined ? `<div class="text-xs opacity-80 mt-0.5">${opt.fr}</div>` : ''}
+                          </button>
+                        `;
+                      }).join('')}
+                    </div>
+                    ${chosen !== undefined ? `
+                      <div class="text-xs font-bold p-3 rounded-xl ${line.options[chosen].correct ? 'bg-emerald-100 text-emerald-900' : 'bg-rose-100 text-rose-900'}">
+                        ${line.options[chosen].correct ? '✅ ' : '❌ '}${line.options[chosen].feedback}
+                      </div>
+                    ` : ''}
+                  </div>
+                `;
+              }
+
+              const isRight = line.side === 'right';
+              return `
+                <div class="flex items-start gap-3 ${isRight ? 'flex-row-reverse' : ''}">
+                  <div class="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-xl shrink-0">
+                    ${line.avatar}
+                  </div>
+                  <div class="max-w-[82%] rounded-2xl p-3.5 ${isRight ? 'bg-teal-700 text-white rounded-tr-none' : 'bg-slate-100 text-slate-900 rounded-tl-none'}">
+                    <div class="flex items-center justify-between gap-3 mb-1">
+                      <span class="text-[11px] font-extrabold uppercase ${isRight ? 'text-teal-200' : 'text-slate-500'}">${line.speaker}</span>
+                      <button onclick="speakDarija('${escapeQuotes(line.darija)}')" class="text-xs opacity-80 hover:opacity-100" title="Écouter">🔊</button>
+                    </div>
+                    <div class="font-display font-bold text-sm sm:text-base leading-snug">${line.darija}</div>
+                    ${showDialogueTranslation ? `<div class="text-xs mt-1 ${isRight ? 'text-teal-100' : 'text-slate-600'}">${line.fr}</div>` : ''}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="flex justify-between pt-3">
+            <button onclick="setUnitTab('vocab')" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold">← Expressions</button>
+            <button onclick="setUnitTab('quiz')" class="btn-3d bg-teal-700 hover:bg-teal-600 text-white font-display font-black px-6 py-3 rounded-2xl text-sm sm:text-base">
+              Passer au Quiz →
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function toggleDialogueFr() {
+      showDialogueTranslation = !showDialogueTranslation;
+      renderApp();
+    }
+
+    function selectDialogueOption(unitId, lineIdx, optIdx) {
+      const key = `${unitId}_${lineIdx}`;
+      const unit = UNITS.find(u => u.id === unitId);
+      const opt = unit.dialogue[lineIdx].options[optIdx];
+      const alreadyAnswered = dialogueSelections[key] !== undefined;
+      dialogueSelections[key] = optIdx;
+      if (!alreadyAnswered && opt.correct) {
+        addXP(15, 'Super réponse au dialogue !');
+      }
+      renderApp();
+    }
+
+    /* --- TAB 4: COMPREHENSION & QUIZ --- */
+    function renderUnitQuiz(unit) {
+      return `
+        <div class="space-y-6 fade-in">
+          <div>
+            <h2 class="font-display font-black text-xl text-slate-900">🧠 Quiz &amp; Compréhension</h2>
+            <p class="text-xs sm:text-sm text-slate-500">Teste ce que tu as retenu (avec parfois une question surprise d’une étape précédente !).</p>
+          </div>
+
+          <div class="space-y-5">
+            ${unit.quiz.map((q, qIdx) => {
+              const key = `${unit.id}_q_${qIdx}`;
+              const chosen = quizAnswers[key];
+              return `
+                <div class="border border-slate-200 rounded-2xl p-4 sm:p-5 bg-slate-50/60 space-y-3">
+                  <div class="font-display font-extrabold text-sm sm:text-base text-slate-900">
+                    <span class="inline-block bg-teal-700 text-white text-xs px-2 py-0.5 rounded-md mr-1.5">Q${qIdx + 1}</span>
+                    ${q.question}
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    ${q.options.map((opt, oIdx) => {
+                      let cls = 'bg-white border-slate-200 hover:border-teal-400 text-slate-800';
+                      if (chosen !== undefined) {
+                        if (oIdx === q.answer) cls = 'bg-emerald-50 border-emerald-500 text-emerald-900 font-bold';
+                        else if (chosen === oIdx) cls = 'bg-rose-50 border-rose-500 text-rose-900';
+                      }
+                      return `
+                        <button onclick="answerQuiz(${unit.id}, ${qIdx}, ${oIdx})" class="text-left p-3 rounded-xl border-2 text-sm transition ${cls}">
+                          ${opt}
+                        </button>
+                      `;
+                    }).join('')}
+                  </div>
+                  ${chosen !== undefined ? `
+                    <div class="text-xs font-semibold p-3 rounded-xl ${chosen === q.answer ? 'bg-emerald-100 text-emerald-900' : 'bg-amber-100 text-amber-900'}">
+                      ${chosen === q.answer ? '✅ Bravo ! ' : '💡 Astuce : '}${q.explanation}
+                    </div>
+                  ` : ''}
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="flex justify-between pt-2">
+            <button onclick="setUnitTab('dialogue')" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold">← Dialogue</button>
+            <button onclick="setUnitTab('builder')" class="btn-3d bg-teal-700 hover:bg-teal-600 text-white font-display font-black px-6 py-3 rounded-2xl text-sm sm:text-base">
+              Atelier Phrases →
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(unitId, qIdx, oIdx) {
+      const key = `${unitId}_q_${qIdx}`;
+      if (quizAnswers[key] !== undefined) return;
+      const unit = UNITS.find(u => u.id === unitId);
+      const q = unit.quiz[qIdx];
+      quizAnswers[key] = oIdx;
+
+      if (oIdx === q.answer) {
+        addXP(10, 'Bonne réponse !');
+        markMastered(q.vocabId);
+      } else {
+        recordMistake(q.vocabId);
+        showToast('Ajouté dans ta liste de révision 🧠', 'info');
+      }
+      renderApp();
+    }
+
+    /* --- TAB 5: SENTENCE BUILDER (TAP CHIPS TO ORDER) --- */
+    function initBuilderIfNeeded(unitId, bIdx, item) {
+      const key = `${unitId}_b_${bIdx}`;
+      if (!builderState[key]) {
+        const pool = [...item.words, ...item.distractors].sort(() => Math.random() - 0.5);
+        builderState[key] = { pool, selected: [], checked: false, isCorrect: false };
+      }
+      return builderState[key];
+    }
+
+    function renderUnitBuilder(unit) {
+      return `
+        <div class="space-y-6 fade-in">
+          <div>
+            <h2 class="font-display font-black text-xl text-slate-900">🧩 Atelier : Construis la phrase !</h2>
+            <p class="text-xs sm:text-sm text-slate-500">Clique sur les mots dans le bon ordre (attention aux mots pièges !).</p>
+          </div>
+
+          <div class="space-y-5">
+            ${unit.builder.map((item, bIdx) => {
+              const st = initBuilderIfNeeded(unit.id, bIdx, item);
+              return `
+                <div class="border border-slate-200 rounded-2xl p-4 sm:p-5 bg-slate-50/70 space-y-3.5">
+                  <div class="font-display font-extrabold text-sm sm:text-base text-slate-900">
+                    ${bIdx + 1}. ${item.promptFr}
+                  </div>
+
+                  <!-- Drop / Selected Zone -->
+                  <div class="min-h-[54px] bg-white border-2 border-dashed ${st.checked ? (st.isCorrect ? 'border-emerald-400 bg-emerald-50/50' : 'border-rose-400 bg-rose-50/50') : 'border-teal-300'} rounded-xl p-2.5 flex flex-wrap gap-2 items-center">
+                    ${st.selected.length === 0 ? `<span class="text-xs text-slate-400 italic">Clique sur les mots ci-dessous…</span>` : ''}
+                    ${st.selected.map((wordIdx, pos) => `
+                      <button onclick="removeBuilderWord(${unit.id}, ${bIdx}, ${pos})" class="px-3 py-1.5 rounded-xl bg-teal-700 text-white font-display font-bold text-sm shadow-sm hover:bg-teal-600 transition">
+                        ${st.pool[wordIdx]}
+                      </button>
+                    `).join('')}
+                  </div>
+
+                  <!-- Available Words Pool -->
+                  <div class="flex flex-wrap gap-2">
+                    ${st.pool.map((word, wIdx) => {
+                      const used = st.selected.includes(wIdx);
+                      return `
+                        <button onclick="addBuilderWord(${unit.id}, ${bIdx}, ${wIdx})" ${used ? 'disabled' : ''} class="px-3.5 py-2 rounded-xl border-2 font-display font-bold text-sm transition ${
+                          used
+                            ? 'bg-slate-100 border-slate-200 text-slate-300 cursor-not-allowed'
+                            : 'bg-white border-slate-300 hover:border-teal-500 text-slate-800 shadow-sm'
+                        }">
+                          ${word}
+                        </button>
+                      `;
+                    }).join('')}
+                  </div>
+
+                  <div class="flex flex-wrap items-center gap-2 pt-1">
+                    <button onclick="checkBuilder(${unit.id}, ${bIdx})" class="btn-3d bg-amber-500 hover:bg-amber-400 text-white text-xs font-black px-4 py-2 rounded-xl">
+                      Vérifier ✓
+                    </button>
+                    <button onclick="resetBuilder(${unit.id}, ${bIdx})" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold px-3 py-2 rounded-xl">
+                      Effacer
+                    </button>
+                    ${st.checked ? `
+                      <span class="text-xs font-bold ${st.isCorrect ? 'text-emerald-700' : 'text-rose-700'}">
+                        ${st.isCorrect ? '🎉 Exact ! Super phrase !' : `❌ Essaie encore ! Réponse : ${item.words.join(' ')}`}
+                      </span>
+                    ` : ''}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="flex justify-between pt-2">
+            <button onclick="setUnitTab('quiz')" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold">← Quiz</button>
+            <button onclick="setUnitTab('roleplay')" class="btn-3d bg-teal-700 hover:bg-teal-600 text-white font-display font-black px-6 py-3 rounded-2xl text-sm sm:text-base">
+              Mission Orale 🎤 →
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function addBuilderWord(unitId, bIdx, wIdx) {
+      const st = builderState[`${unitId}_b_${bIdx}`];
+      if (!st || st.selected.includes(wIdx)) return;
+      st.selected.push(wIdx);
+      st.checked = false;
+      renderApp();
+    }
+
+    function removeBuilderWord(unitId, bIdx, pos) {
+      const st = builderState[`${unitId}_b_${bIdx}`];
+      if (!st) return;
+      st.selected.splice(pos, 1);
+      st.checked = false;
+      renderApp();
+    }
+
+    function resetBuilder(unitId, bIdx) {
+      const st = builderState[`${unitId}_b_${bIdx}`];
+      if (!st) return;
+      st.selected = [];
+      st.checked = false;
+      renderApp();
+    }
+
+    function checkBuilder(unitId, bIdx) {
+      const unit = UNITS.find(u => u.id === unitId);
+      const item = unit.builder[bIdx];
+      const st = builderState[`${unitId}_b_${bIdx}`];
+      const built = st.selected.map(i => st.pool[i]).join(' ');
+      const target = item.words.join(' ');
+      const wasCorrect = st.isCorrect;
+
+      st.checked = true;
+      st.isCorrect = built === target;
+
+      if (st.isCorrect && !wasCorrect) {
+        addXP(15, 'Phrase bien construite !');
+        markMastered(item.vocabId);
+      } else if (!st.isCorrect) {
+        recordMistake(item.vocabId);
+      }
+      renderApp();
+    }
+
+    /* --- TAB 6: ROLE-PLAY, FREE PRODUCTION & VOICE RECORDER --- */
+    function renderUnitRoleplay(unit) {
+      const rp = unit.roleplay;
+      const evalRes = roleplayEvaluations[unit.id];
+
+      return `
+        <div class="space-y-5 fade-in">
+          <div>
+            <span class="inline-block text-[11px] font-black uppercase tracking-wider bg-orange-100 text-orange-700 px-2.5 py-1 rounded-full mb-1">
+              Production libre (Sans QCM !)
+            </span>
+            <h2 class="font-display font-black text-xl text-slate-900">🎤 Mission Orale &amp; Role-Play</h2>
+            <p class="text-xs sm:text-sm text-slate-500">Réponds avec tes propres mots en Darija, puis entraîne-toi à voix haute avec l’enregistreur !</p>
+          </div>
+
+          <!-- Character Prompt -->
+          <div class="bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-2xl p-5 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-extrabold uppercase text-amber-400">${rp.character} te parle :</span>
+              <button onclick="speakDarija('${escapeQuotes(rp.characterLineDarija)}')" class="bg-white/15 hover:bg-white/25 px-3 py-1 rounded-lg text-xs font-bold">🔊 Écouter</button>
+            </div>
+            <p class="font-display font-extrabold text-lg sm:text-xl leading-snug">« ${rp.characterLineDarija} »</p>
+            <p class="text-xs sm:text-sm text-slate-300 italic">${rp.characterLineFr}</p>
+          </div>
+
+          <!-- Mission Instructions -->
+          <div class="bg-teal-50 border border-teal-200 rounded-2xl p-4">
+            <div class="text-xs font-black uppercase text-teal-800 mb-1">🎯 Ta mission :</div>
+            <p class="text-sm text-teal-950 font-semibold">${rp.missionFr}</p>
+          </div>
+
+          <!-- Free Written Production Box -->
+          <div class="space-y-2.5">
+            <label for="rp-input-${unit.id}" class="block text-xs font-extrabold uppercase text-slate-600">
+              1. Écris ta réponse en Darija (sans traducteur !) :
+            </label>
+            <textarea id="rp-input-${unit.id}" rows="2" placeholder="Ex : Salam..." class="w-full rounded-2xl border-2 border-slate-200 focus:border-teal-500 focus:outline-none p-3.5 text-sm sm:text-base font-medium">${evalRes ? evalRes.userText : ''}</textarea>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="evaluateRoleplay(${unit.id})" class="btn-3d bg-teal-700 hover:bg-teal-600 text-white text-xs sm:text-sm font-black px-5 py-2.5 rounded-xl">
+                Valider ma réponse ✓
+              </button>
+              <button onclick="revealRoleplayModel(${unit.id})" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl">
+                💡 Voir un exemple naturel
+              </button>
+            </div>
+          </div>
+
+          ${evalRes ? `
+            <div class="rounded-2xl p-4 border-2 ${evalRes.passed ? 'bg-emerald-50 border-emerald-300' : 'bg-amber-50 border-amber-300'} space-y-2 pop-in">
+              <div class="font-display font-black text-sm ${evalRes.passed ? 'text-emerald-900' : 'text-amber-900'}">
+                ${evalRes.feedback}
+              </div>
+              <div class="bg-white/90 rounded-xl p-3 text-xs sm:text-sm border border-slate-200">
+                <div class="font-bold text-slate-500 text-[11px] uppercase">Exemple 100% naturel :</div>
+                <div class="font-display font-extrabold text-teal-900 mt-0.5">${rp.modelDarija}</div>
+                <div class="text-slate-600 text-xs">${rp.modelFr}</div>
+              </div>
+            </div>
+          ` : ''}
+
+          <!-- Real Voice Recorder for Speaking Practice -->
+          <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50 space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div>
+                <div class="text-xs font-black uppercase text-slate-700">2. Entraînement Oral (Enregistre ta voix !)</div>
+                <p class="text-xs text-slate-500">Parle à voix haute et réécoute-toi pour gagner confiance (aucune note automatique artificielle).</p>
+              </div>
+              <button id="rec-btn" onclick="toggleVoiceRecording()" class="btn-3d px-4 py-2.5 rounded-xl text-xs font-black text-white flex items-center gap-2 ${isRecording ? 'bg-rose-600 recording-pulse' : 'bg-slate-800 hover:bg-slate-700'}">
+                <span>${isRecording ? '⏹️ Arrêter' : '🎙️ S’enregistrer'}</span>
+              </button>
+            </div>
+            ${recordedAudioUrl ? `
+              <div class="pt-1">
+                <audio controls src="${recordedAudioUrl}" class="w-full h-10"></audio>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- Complete Unit CTA -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-200">
+            <button onclick="setUnitTab('builder')" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold">← Phrases</button>
+            <button onclick="completeUnit(${unit.id})" class="btn-3d bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-display font-black px-6 py-3.5 rounded-2xl text-sm sm:text-base">
+              🎉 Terminer l’Étape ${unit.id} &amp; Gagner le Badge !
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function evaluateRoleplay(unitId) {
+      const unit = UNITS.find(u => u.id === unitId);
+      const inputEl = document.getElementById(`rp-input-${unitId}`);
+      const text = (inputEl ? inputEl.value : '').trim();
+      if (!text) {
+        showToast('Écris d’abord une petite phrase en Darija !', 'info');
+        return;
+      }
+
+      const norm = text.toLowerCase();
+      const matches = unit.roleplay.expectedKeywords.filter(k => norm.includes(k));
+      const passed = matches.length >= 1 && text.length >= 5;
+
+      const wasPassed = roleplayEvaluations[unitId]?.passed;
+      roleplayEvaluations[unitId] = {
+        userText: text,
+        passed,
+        feedback: passed
+          ? '🔥 Tbarkellah 3lik ! Ta réponse est compréhensible et adaptée à la situation !'
+          : '👍 Bel effort ! Essaie d’ajouter un mot-clé de cette étape (regarde l’exemple ci-dessous) et réessaie !'
+      };
+
+      if (passed && !wasPassed) {
+        addXP(25, 'Mission orale réussie !');
+      }
+      renderApp();
+    }
+
+    function revealRoleplayModel(unitId) {
+      const inputEl = document.getElementById(`rp-input-${unitId}`);
+      roleplayEvaluations[unitId] = {
+        userText: inputEl ? inputEl.value : '',
+        passed: false,
+        feedback: '💡 Voici un modèle naturel. Lis-le à voix haute puis essaie d’écrire ta propre version !'
+      };
+      renderApp();
+    }
+
+    async function toggleVoiceRecording() {
+      if (isRecording) {
+        stopRecordingIfActive();
+        renderApp();
+        return;
+      }
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        showToast('Le micro n’est pas disponible sur ce navigateur. Entraîne-toi quand même à voix haute !', 'info');
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recordedChunks = [];
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = e => {
+          if (e.data.size > 0) recordedChunks.push(e.data);
+        };
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+          recordedAudioUrl = URL.createObjectURL(blob);
+          stream.getTracks().forEach(t => t.stop());
+          isRecording = false;
+          addXP(10, 'Bravo d’avoir parlé à voix haute !');
+          renderApp();
+        };
+        mediaRecorder.start();
+        isRecording = true;
+        renderApp();
+      } catch (err) {
+        showToast('Accès au micro refusé ou indisponible. Tu peux continuer en lisant à voix haute !', 'info');
+      }
+    }
+
+    function stopRecordingIfActive() {
+      if (mediaRecorder && isRecording) {
+        try { mediaRecorder.stop(); } catch (e) {}
+      }
+      isRecording = false;
+    }
+
+    function completeUnit(unitId) {
+      const unit = UNITS.find(u => u.id === unitId);
+      const isNew = !state.completedUnits.includes(unitId);
+      if (isNew) {
+        state.completedUnits.push(unitId);
+        addXP(40, `Étape ${unitId} terminée !`);
+      }
+      unlockBadge(unit.badgeId);
+      unit.vocab.forEach(v => {
+        if (!state.mistakes.includes(v.id)) markMastered(v.id);
+      });
+      saveState();
+
+      const nextUnit = UNITS.find(u => u.id === unitId + 1);
+      const nextAction = nextUnit
+        ? { label: `Étape suivante : ${nextUnit.titleDarija} →`, fn: () => { closeModal(); navigateTo('unit', nextUnit.id); } }
+        : { label: '🎯 Lancer le Défi Final !', fn: () => { closeModal(); navigateTo('final'); } };
+
+      openModal(
+        unit.badgeIcon,
+        `Bravo ! Étape ${unitId} réussie !`,
+        `Tbarkellah 3lik ! Tu as débloqué le badge « ${unit.badgeName} ». Tu es prêt pour la suite de ton aventure au Maroc !`,
+        [
+          { label: 'Carte', secondary: true, fn: () => { closeModal(); navigateTo('home'); } },
+          nextAction
+        ]
+      );
+    }
+
+    /* =========================================================================
+       8. VIEW 3: SPACED REPETITION & ACTIVE RECALL REVIEW
+       ========================================================================= */
+    function startReviewSession(mode = 'smart') {
+      reviewMode = mode;
+      const all = getAllVocab();
+      if (mode === 'smart' && state.mistakes.length > 0) {
+        reviewDeck = all.filter(v => state.mistakes.includes(v.id));
+      } else if (mode === 'm1') {
+        reviewDeck = all.filter(v => v.unitId <= 2).sort(() => Math.random() - 0.5).slice(0, 10);
+      } else if (mode === 'm2') {
+        reviewDeck = all.filter(v => v.unitId === 3 || v.unitId === 4).sort(() => Math.random() - 0.5).slice(0, 10);
+      } else {
+        reviewDeck = all.sort(() => Math.random() - 0.5).slice(0, 12);
+      }
+      reviewIndex = 0;
+      reviewRevealed = false;
+      navigateTo('review');
+    }
+
+    function renderReviewView() {
+      if (reviewDeck.length === 0) {
+        const all = getAllVocab();
+        reviewDeck = state.mistakes.length > 0
+          ? all.filter(v => state.mistakes.includes(v.id))
+          : all.sort(() => Math.random() - 0.5).slice(0, 10);
+        reviewIndex = 0;
+        reviewRevealed = false;
+      }
+
+      const card = reviewDeck[reviewIndex];
+
+      return `
+        <div class="fade-in max-w-2xl mx-auto space-y-5">
+          <div class="text-center space-y-1">
+            <h1 class="font-display font-black text-2xl sm:text-3xl text-slate-900">🧠 Révision Active (Sans tricher !)</h1>
+            <p class="text-xs sm:text-sm text-slate-500">Essaie de dire la phrase en Darija dans ta tête avant de révéler la réponse.</p>
+          </div>
+
+          <!-- Mode Selector -->
+          <div class="flex flex-wrap justify-center gap-2">
+            <button onclick="startReviewSession('smart')" class="px-3.5 py-2 rounded-xl text-xs font-extrabold ${reviewMode === 'smart' ? 'bg-rose-600 text-white' : 'bg-white border border-slate-200 text-slate-700'}">
+              🎯 Mes erreurs (${state.mistakes.length})
+            </button>
+            <button onclick="startReviewSession('m1')" class="px-3.5 py-2 rounded-xl text-xs font-extrabold ${reviewMode === 'm1' ? 'bg-teal-700 text-white' : 'bg-white border border-slate-200 text-slate-700'}">
+              Étapes 1 &amp; 2
+            </button>
+            <button onclick="startReviewSession('m2')" class="px-3.5 py-2 rounded-xl text-xs font-extrabold ${reviewMode === 'm2' ? 'bg-teal-700 text-white' : 'bg-white border border-slate-200 text-slate-700'}">
+              Étapes 3 &amp; 4
+            </button>
+            <button onclick="startReviewSession('all')" class="px-3.5 py-2 rounded-xl text-xs font-extrabold ${reviewMode === 'all' ? 'bg-amber-500 text-white' : 'bg-white border border-slate-200 text-slate-700'}">
+              🎲 Mix Général
+            </button>
+          </div>
+
+          ${card ? `
+            <!-- Active Recall Flashcard -->
+            <div class="bg-white rounded-3xl border-2 border-slate-200 p-6 sm:p-8 shadow-md text-center space-y-5">
+              <div class="flex items-center justify-between text-xs font-bold text-slate-400">
+                <span>Carte ${reviewIndex + 1} / ${reviewDeck.length}</span>
+                <span class="bg-slate-100 text-slate-600 px-2.5 py-0.5 rounded-full">Étape ${card.unitId}</span>
+              </div>
+
+              <div class="py-4 space-y-2">
+                <div class="text-5xl mb-2">${card.icon}</div>
+                <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Comment dit-on en Darija :</div>
+                <div class="font-display font-black text-2xl sm:text-3xl text-slate-900">${card.fr}</div>
+              </div>
+
+              ${!reviewRevealed ? `
+                <button onclick="revealReviewCard()" class="btn-3d bg-teal-700 hover:bg-teal-600 text-white font-display font-black px-8 py-3.5 rounded-2xl text-base w-full sm:w-auto">
+                  👁️ Voir la réponse
+                </button>
+              ` : `
+                <div class="bg-teal-50 border-2 border-teal-200 rounded-2xl p-5 space-y-2 pop-in">
+                  <div class="flex items-center justify-center gap-3">
+                    <span class="font-display font-black text-2xl sm:text-3xl text-teal-900">${card.darija}</span>
+                    <button onclick="speakDarija('${escapeQuotes(card.darija)}', '${escapeQuotes(card.arabic)}')" class="w-9 h-9 rounded-xl bg-white border border-teal-200 flex items-center justify-center">🔊</button>
+                  </div>
+                  ${state.showArabic ? `<div class="text-base text-slate-500" dir="rtl">${card.arabic}</div>` : ''}
+                  <p class="text-xs text-slate-600">${card.context}</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                  <button onclick="rateReviewCard(false)" class="btn-3d bg-rose-100 hover:bg-rose-200 text-rose-800 font-display font-extrabold py-3 rounded-2xl text-sm">
+                    😅 À revoir encore
+                  </button>
+                  <button onclick="rateReviewCard(true)" class="btn-3d bg-emerald-600 hover:bg-emerald-500 text-white font-display font-extrabold py-3 rounded-2xl text-sm">
+                    ✅ Je connais !
+                  </button>
+                </div>
+              `}
+            </div>
+          ` : `
+            <div class="bg-white rounded-3xl border border-slate-200 p-8 text-center space-y-4">
+              <div class="text-5xl">🎉</div>
+              <h2 class="font-display font-black text-2xl text-slate-900">Session de révision terminée !</h2>
+              <p class="text-sm text-slate-600">Ta mémoire devient de plus en plus forte en Darija !</p>
+              <button onclick="startReviewSession('all')" class="btn-3d bg-teal-700 text-white font-display font-black px-6 py-3 rounded-2xl text-sm">
+                Nouvelle série 🎲
+              </button>
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    function revealReviewCard() {
+      reviewRevealed = true;
+      renderApp();
+    }
+
+    function rateReviewCard(knewIt) {
+      const card = reviewDeck[reviewIndex];
+      if (knewIt) {
+        markMastered(card.id);
+        addXP(5);
+      } else {
+        recordMistake(card.id);
+      }
+
+      reviewIndex++;
+      reviewRevealed = false;
+
+      if (reviewIndex >= reviewDeck.length) {
+        unlockBadge('badge_reviewer');
+        reviewDeck = [];
+      }
+      renderApp();
+    }
+
+    /* =========================================================================
+       9. VIEW 4: BADGES & PROGRESS DASHBOARD
+       ========================================================================= */
+    function renderBadgesView() {
+      return `
+        <div class="fade-in space-y-6">
+          <div class="bg-white rounded-3xl border border-slate-200 p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+            <div>
+              <h1 class="font-display font-black text-2xl sm:text-3xl text-slate-900">🏆 Tes Trophées &amp; Progrès</h1>
+              <p class="text-sm text-slate-500">Niveau actuel : <strong class="text-teal-700">${getLevelTitle(state.xp)}</strong> (${state.xp} XP)</p>
+            </div>
+            <div class="text-center bg-amber-50 border border-amber-200 px-5 py-3 rounded-2xl">
+              <div class="font-display font-black text-2xl text-amber-700">${state.badges.length} / ${BADGES.length}</div>
+              <div class="text-xs font-bold text-amber-900">Badges débloqués</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            ${BADGES.map(b => {
+              const unlocked = state.badges.includes(b.id);
+              return `
+                <div class="rounded-2xl border-2 p-4 text-center transition ${unlocked ? 'bg-white border-amber-300 shadow-sm' : 'bg-slate-100 border-slate-200 opacity-60 grayscale'}">
+                  <div class="text-4xl mb-2">${b.icon}</div>
+                  <div class="font-display font-extrabold text-sm text-slate-900">${b.name}</div>
+                  <div class="text-[11px] text-slate-500 mt-1">${b.desc}</div>
+                  <div class="mt-2.5 text-[10px] font-black uppercase ${unlocked ? 'text-emerald-600' : 'text-slate-400'}">
+                    ${unlocked ? '✅ Débloqué' : '🔒 Verrouillé'}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    /* =========================================================================
+       10. VIEW 5: FINAL ADVENTURE ASSESSMENT ("Nhar kamel m3a 3a2ilti f lMaghrib")
+       ========================================================================= */
+    function restartFinalAdventure() {
+      finalStepIndex = 0;
+      finalResults = [];
+      renderApp();
+    }
+
+    function renderFinalAdventureView() {
+      // Completed Report Card
+      if (finalStepIndex >= FINAL_ADVENTURE_STEPS.length) {
+        const correctCount = finalResults.filter(r => r.correct).length;
+        const total = FINAL_ADVENTURE_STEPS.length;
+        const pct = Math.round((correctCount / total) * 100);
+        const mastered = finalResults.filter(r => r.correct).map(r => r.skillTag);
+        const toReview = finalResults.filter(r => !r.correct).map(r => r.skillTag);
+
+        let message = "Tbarkellah 3lik ! Tu es prêt à passer une vraie journée au Maroc et à discuter avec toute ta famille !";
+        if (pct < 60) message = "Super début ! Tu as déjà le courage de parler Darija. Révise les quelques points ci-dessous et retente le défi !";
+        else if (pct < 85) message = "Bravo champion ! Ta famille va être super fière de t’entendre parler aussi bien !";
+
+        return `
+          <div class="fade-in max-w-2xl mx-auto bg-white rounded-3xl border-2 border-amber-300 p-6 sm:p-8 shadow-lg space-y-6">
+            <div class="text-center space-y-2">
+              <div class="text-6xl">${pct >= 70 ? '👑' : '🌟'}</div>
+              <span class="text-xs font-black uppercase tracking-wider text-amber-700 bg-amber-100 px-3 py-1 rounded-full">Bilan de la Journée</span>
+              <h1 class="font-display font-black text-2xl sm:text-3xl text-slate-900">Nhar kamel m3a 3a2ilti f lMaghrib</h1>
+              <div class="font-display font-black text-4xl text-teal-700">${correctCount} / ${total} <span class="text-lg text-slate-400">(${pct}%)</span></div>
+              <p class="text-sm text-slate-700 max-w-md mx-auto leading-relaxed">${message}</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4">
+                <h3 class="font-display font-extrabold text-sm text-emerald-900 mb-2">✅ Compétences maîtrisées</h3>
+                ${mastered.length ? `<ul class="text-xs text-emerald-800 space-y-1.5">${mastered.map(s => `<li>• ${s}</li>`).join('')}</ul>` : `<p class="text-xs text-emerald-700">Continue de pratiquer, ça arrive vite !</p>`}
+              </div>
+              <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+                <h3 class="font-display font-extrabold text-sm text-amber-900 mb-2">🧠 À renforcer</h3>
+                ${toReview.length ? `<ul class="text-xs text-amber-800 space-y-1.5">${toReview.map(s => `<li>• ${s}</li>`).join('')}</ul>` : `<p class="text-xs text-amber-800 font-bold">Aucune erreur ! Score parfait ! 🔥</p>`}
+              </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-3 pt-2">
+              <button onclick="restartFinalAdventure()" class="btn-3d bg-teal-700 hover:bg-teal-600 text-white font-display font-black px-5 py-3 rounded-2xl text-sm">
+                🔁 Rejouer le Défi Final
+              </button>
+              <button onclick="startReviewSession('smart')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-display font-bold px-5 py-3 rounded-2xl text-sm">
+                🧠 Réviser mes mots
+              </button>
+              <button onclick="navigateTo('home')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-display font-bold px-5 py-3 rounded-2xl text-sm">
+                🗺️ Carte
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      const step = FINAL_ADVENTURE_STEPS[finalStepIndex];
+      const pctBar = Math.round((finalStepIndex / FINAL_ADVENTURE_STEPS.length) * 100);
+
+      return `
+        <div class="fade-in max-w-2xl mx-auto space-y-5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black uppercase text-orange-600">🎯 Défi Final &bull; Scène ${finalStepIndex + 1} / ${FINAL_ADVENTURE_STEPS.length}</span>
+            <button onclick="restartFinalAdventure()" class="text-xs font-bold text-slate-400 hover:text-slate-700">Recommencer</button>
+          </div>
+
+          <div class="h-2.5 bg-slate-200 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-orange-500 to-teal-600 transition-all duration-300" style="width: ${pctBar}%"></div>
+          </div>
+
+          <div class="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 shadow-md space-y-5">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">${step.icon}</span>
+              <div>
+                <div class="text-xs font-bold text-slate-400 uppercase">${step.stage}</div>
+                <h2 class="font-display font-black text-lg text-slate-900">${step.character}</h2>
+              </div>
+            </div>
+
+            <div class="bg-slate-900 text-white rounded-2xl p-4 space-y-1">
+              <div class="flex items-center justify-between gap-2">
+                <p class="font-display font-extrabold text-base sm:text-lg">« ${step.lineDarija} »</p>
+                <button onclick="speakDarija('${escapeQuotes(step.lineDarija)}')" class="bg-white/15 hover:bg-white/25 px-2.5 py-1 rounded-lg text-xs shrink-0">🔊</button>
+              </div>
+              <p class="text-xs text-slate-300 italic">${step.lineFr}</p>
+            </div>
+
+            <p class="text-sm font-bold text-slate-800">${step.prompt}</p>
+
+            ${step.type === 'choice' ? `
+              <div class="space-y-2.5">
+                ${step.options.map((opt, idx) => `
+                  <button onclick="submitFinalChoice(${idx})" class="w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-teal-500 hover:bg-teal-50/40 font-display font-bold text-sm sm:text-base transition">
+                    ${opt.text}
+                  </button>
+                `).join('')}
+              </div>
+            ` : `
+              <div class="space-y-3">
+                <textarea id="final-open-input" rows="2" placeholder="Écris ta réponse en Darija ici..." class="w-full rounded-2xl border-2 border-slate-200 focus:border-teal-500 focus:outline-none p-3.5 text-sm sm:text-base"></textarea>
+                <button onclick="submitFinalOpen()" class="btn-3d bg-teal-700 hover:bg-teal-600 text-white font-display font-black px-6 py-3 rounded-2xl text-sm w-full sm:w-auto">
+                  Envoyer ma réponse →
+                </button>
+              </div>
+            `}
+          </div>
+        </div>
+      `;
+    }
+
+    function submitFinalChoice(optIdx) {
+      const step = FINAL_ADVENTURE_STEPS[finalStepIndex];
+      const isCorrect = step.options[optIdx].correct;
+      recordFinalStepResult(step, isCorrect);
+    }
+
+    function submitFinalOpen() {
+      const step = FINAL_ADVENTURE_STEPS[finalStepIndex];
+      const val = (document.getElementById('final-open-input')?.value || '').trim();
+      if (!val) {
+        showToast('Écris une petite réponse en Darija pour continuer !', 'info');
+        return;
+      }
+      const norm = val.toLowerCase();
+      const isCorrect = step.keywords.some(k => norm.includes(k)) && val.length >= 4;
+      recordFinalStepResult(step, isCorrect, step.model);
+    }
+
+    function recordFinalStepResult(step, isCorrect, modelHint = '') {
+      finalResults.push({ id: step.id, correct: isCorrect, skillTag: step.skillTag });
+      if (isCorrect) {
+        addXP(20, 'Réussi !');
+        markMastered(step.vocabRef);
+      } else {
+        recordMistake(step.vocabRef);
+        showToast(modelHint ? `Exemple : ${modelHint}` : 'Ajouté à tes révisions !', 'info');
+      }
+
+      finalStepIndex++;
+      if (finalStepIndex >= FINAL_ADVENTURE_STEPS.length) {
+        const score = finalResults.filter(r => r.correct).length;
+        if (state.finalBestScore === null || score > state.finalBestScore) {
+          state.finalBestScore = score;
+        }
+        if (score >= 5) unlockBadge('badge_champion');
+        saveState();
+      }
+      renderApp();
+    }
+
+    /* =========================================================================
+       11. UI HELPERS (TOASTS, CUSTOM MODAL, GUIDE, RESET)
+       ========================================================================= */
+    function escapeQuotes(str) {
+      return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      const colors = {
+        xp: 'bg-amber-500 text-white',
+        badge: 'bg-teal-700 text-white',
+        info: 'bg-slate-800 text-white'
+      };
+      el.className = `${colors[type] || colors.info} px-4 py-2.5 rounded-2xl shadow-lg text-xs sm:text-sm font-bold pop-in`;
+      el.textContent = msg;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transition = 'opacity 0.3s';
+        setTimeout(() => el.remove(), 300);
+      }, 2800);
+    }
+
+    function openModal(icon, title, body, actions = []) {
+      document.getElementById('modal-icon').textContent = icon;
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-body').innerHTML = body;
+      const actDiv = document.getElementById('modal-actions');
+      actDiv.innerHTML = '';
+      actions.forEach(a => {
+        const btn = document.createElement('button');
+        btn.className = a.secondary
+          ? 'px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-bold'
+          : 'btn-3d px-5 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-600 text-white font-display font-black text-sm';
+        btn.textContent = a.label;
+        btn.onclick = a.fn;
+        actDiv.appendChild(btn);
+      });
+      const modal = document.getElementById('custom-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('custom-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function openTranscriptionGuide() {
+      openModal(
+        '📖',
+        'Guide express : les chiffres en Darija',
+        `En Darija écrite avec des lettres latines, certains chiffres remplacent des sons arabes :<br/><br/>
+        <strong>3</strong> = son « a » profond (<em>3afak, l3a2ila, m3a</em>)<br/>
+        <strong>7</strong> = « h » fort expiré (<em>Mer7ba, L7amdullah, s7abi</em>)<br/>
+        <strong>9</strong> = « k » du fond de la gorge (<em>tri9, kat9ra, ne9der</em>)<br/>
+        <strong>kh</strong> = comme la « j » espagnole (<em>khbarek, nekhrej</em>)<br/>
+        <strong>ch</strong> = comme « ch » en français (<em>chokran, chnou</em>)`,
+        [{ label: 'Compris ! 👍', fn: closeModal }]
+      );
+    }
+
+    function confirmResetProgress() {
+      openModal(
+        '🔄',
+        'Réinitialiser ta progression ?',
+        'Tes points XP, badges et étapes terminées seront remis à zéro pour recommencer l’aventure depuis le début.',
+        [
+          { label: 'Annuler', secondary: true, fn: closeModal },
+          {
+            label: 'Oui, recommencer',
+            fn: () => {
+              state = { ...DEFAULT_STATE };
+              dialogueSelections = {};
+              quizAnswers = {};
+              builderState = {};
+              roleplayEvaluations = {};
+              finalStepIndex = 0;
+              finalResults = [];
+              saveState();
+              closeModal();
+              navigateTo('home');
+              showToast('Progression réinitialisée !', 'info');
+            }
+          }
+        ]
+      );
+    }
+
+    /* =========================================================================
+       12. BOOTSTRAP APPLICATION
+       ========================================================================= */
+    window.addEventListener('DOMContentLoaded', () => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.getVoices();
+      }
+      updateHUD();
+      renderApp();
+    });
+  </script>
+</body>
+</html>
